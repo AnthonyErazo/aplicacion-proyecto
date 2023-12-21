@@ -17,8 +17,9 @@ export default function Navigator() {
                     ({ route }) => {
                         return {
                             header: () => {
-                                return <Header title={"Shop"
-                                } />
+                                return <Header title={
+                                    route.name==='ProductDetail'?route.params.product.title:'Shop'
+                                } route={route} />
                             }
                         }
                     }

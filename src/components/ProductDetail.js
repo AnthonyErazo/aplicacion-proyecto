@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, Pressable } from 'react-native';
+import { useState } from 'react';
+import { View, Text, Image, StyleSheet, Pressable, FlatList } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
 export default function ProductDetail({ product }) {
@@ -18,10 +18,12 @@ export default function ProductDetail({ product }) {
       <View style={styles.ratingContainer}>
         {product.rating && (
           <>
-            <Text style={styles.ratingTitle}>Rating: 
-                {[...Array(Math.floor(product.rating))].map((_, index) => (
-                  <AntDesign key={index} name="star" size={20} color="#f1c40f" style={styles.star} />
-                ))} {product.rating}
+            <Text style={styles.ratingTitle}>
+              Rating:{' '}
+              {[...Array(Math.floor(product.rating))].map((_, index) => (
+                <AntDesign key={index} name="star" size={20} color="#f1c40f" style={styles.star} />
+              ))}{' '}
+              {product.rating}
             </Text>
           </>
         )}
@@ -30,17 +32,20 @@ export default function ProductDetail({ product }) {
         {product.images && product.images.length > 0 && (
           <>
             <Text style={styles.imageTitle}>More Images:</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {product.images.map((image, index) => (
+            <FlatList
+              data={product.images}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
                 <Pressable
-                  key={index}
-                  onPress={() => handleImageSelect(image)}
+                  onPress={() => handleImageSelect(item)}
                   style={styles.imageButton}
                 >
-                  <Image source={{ uri: image }} style={styles.additionalImage} />
+                  <Image source={{ uri: item }} style={styles.additionalImage} />
                 </Pressable>
-              ))}
-            </ScrollView>
+              )}
+            />
           </>
         )}
       </View>

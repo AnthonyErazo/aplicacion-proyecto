@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import {colors} from '../global/Color'
+import { View, Text, StyleSheet } from 'react-native';
+import {colors} from '../global/color'
 
-export default function Header({title}) {
+export default function Header({title,route}) {
+    if(route.name=='Search') return null;
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{title}</Text>
