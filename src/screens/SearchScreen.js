@@ -4,7 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 import SearchBar from '../components/SearchBar';
 import products from '../data/products.json'
 import ProductList from '../components/ProductList';
-export default function SearchScreen({ handleBackPress, handleProductPress }) {
+export default function SearchScreen({ navigation }) {
     const [searchText, setSearchText] = useState('');
     const [items, setItems] = useState([])
     let filteredItems
@@ -22,7 +22,7 @@ export default function SearchScreen({ handleBackPress, handleProductPress }) {
     return (
         <View>
             <View style={styles.inputContainer}>
-                <Pressable style={styles.backContainer} onPress={handleBackPress}>
+                <Pressable style={styles.backContainer} onPress={()=>navigation.navigate("Home")}>
                     <AntDesign name="arrowleft" size={24} color="black" />
                 </Pressable>
                 <View style={styles.searchBarContainer}>
@@ -43,7 +43,7 @@ export default function SearchScreen({ handleBackPress, handleProductPress }) {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <ProductList
                     product={item}
-                    handleProductPress={handleProductPress}
+                    navigation={navigation}
                 />}
             />
         </View>

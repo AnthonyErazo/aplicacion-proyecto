@@ -1,11 +1,10 @@
 import { View } from 'react-native';
-import Navbar from '../components/Navbar';
 import ProductDetail from '../components/ProductDetail';
 
-export default function ProductDetailScreen({ product, handleBackPress }) {
+export default function ProductDetailScreen({ navigation,route }) {
+    const {product}=route.params
     return (
         <View>
-            <Navbar handleBackPress={handleBackPress} />
             <ProductDetail product={product} />
         </View>
     );

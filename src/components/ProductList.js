@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 
-export default function ProductList({ product, handleProductPress }) {
+export default function ProductList({ product, navigation }) {
   return (
-    <Pressable onPress={() => handleProductPress(product)}>
+    <Pressable onPress={() => navigation.navigate("ProductDetail",{product})}>
       <View style={styles.productItem}>
         <Image style={styles.thumbnail} source={{ uri: product.thumbnail }} />
         <View style={styles.productDetails}>

@@ -1,12 +1,10 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import {colors} from '../global/Color'
 
-export default function Navbar({handleBackPress}) {
+export default function Header({title}) {
     return (
         <View style={styles.container}>
-            <Pressable onPress={handleBackPress}>
-                <Text style={styles.title}>Shop</Text>
-            </Pressable>
+            <Text style={styles.title}>{title}</Text>
         </View>
     );
 };

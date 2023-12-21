@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { View, FlatList, Text, Pressable,StyleSheet } from 'react-native';
-import Navbar from '../components/Navbar';
 import SearchBar from '../components/SearchBar';
 import ProductList from '../components/ProductList';
 import products from '../data/products.json';
 import ModalCategories from '../components/ModalCategories';
 
-export default function HomeScreen({ handleSearchPress, handleProductPress, handleBackPress }) {
+export default function HomeScreen({ navigation}) {
     const [items, setItems] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     useEffect(() => {
@@ -31,8 +30,7 @@ export default function HomeScreen({ handleSearchPress, handleProductPress, hand
 
     return (
         <View>
-            <Navbar handleBackPress={handleBackPress} />
-            <SearchBar handleSearchPress={handleSearchPress} />
+            <SearchBar navigation={navigation}/>
             <Pressable style={styles.selectButton} onPress={openModal}>
                 <Text style={styles.selectButtonText}>Seleccionar categoría</Text>
             </Pressable>
@@ -41,7 +39,7 @@ export default function HomeScreen({ handleSearchPress, handleProductPress, hand
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <ProductList
                 product={item}
-                handleProductPress={handleProductPress}
+                navigation={navigation}
                 />}
             />
             <ModalCategories 

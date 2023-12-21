@@ -1,8 +1,8 @@
-import { TextInput, StyleSheet, View, Pressable,Text } from 'react-native';
+import { TextInput, StyleSheet, View, Pressable} from 'react-native';
 import { AntDesign } from "@expo/vector-icons"
 import { colors } from '../global/Color'
 
-export default function SearchBar({handleSearchPress,searchText,setSearchText}) {
+export default function SearchBar({navigation,searchText,setSearchText}) {
     
     return (
         <View style={styles.container}>
@@ -11,10 +11,10 @@ export default function SearchBar({handleSearchPress,searchText,setSearchText}) 
                     style={styles.input}
                     placeholder="Buscar productos..."
                     value={searchText}
-                    onFocus={handleSearchPress}
+                    onFocus={()=>navigation?.navigate("Search")}
                     onChangeText={(text) => setSearchText(text)}
                 />
-                <Pressable style={styles.searchIcon} onPress={handleSearchPress}>
+                <Pressable style={styles.searchIcon} onPress={()=>navigation?.navigate("Search")}>
                     <AntDesign name='search1' color="black" size={25} />
                 </Pressable>
             </View>

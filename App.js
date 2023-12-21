@@ -1,56 +1,26 @@
-import { useState } from 'react';
 import { useFonts } from 'expo-font';
-import { View, StyleSheet } from 'react-native';
-import HomeScreen from './src/screens/HomeScreen';
-import SearchScreen from './src/screens/SearchScreen';
-import ProductDetailScreen from './src/screens/ProductDetailScreen';
+import { StyleSheet,StatusBar } from 'react-native';
+import { colors } from './src/global/Color';
+import Navigator from './src/navigation/Navigator';
 
 export default function App() {
-  const [screen, setScreen] = useState('Home');
-  const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const [fontLoaded]=useFonts({
-    Josefin:require("./assets/Fonts/JosefinSans-Bold.ttf")
+  const [fontLoaded] = useFonts({
+    Josefin: require("./assets/Fonts/JosefinSans-Bold.ttf")
   })
-  if(!fontLoaded) return null
-  const handleSearchPress = () => {
-    setScreen('Search');
-  };
-
-  const handleBackPress = () => {
-    setScreen('Home');
-  };
-  const handleProductPress = (product) => {
-    setSelectedProduct(product);
-    setScreen('ProductDetail');
-  };
+  if (!fontLoaded) return null
 
   return (
-    <View style={styles.container}>
-      {screen === 'Home' && (
-        <HomeScreen
-        handleBackPress={handleBackPress}
-        handleSearchPress={handleSearchPress}
-        handleProductPress={handleProductPress}
+    <>
+      <StatusBar
+        backgroundColor={colors.green2}
+        barStyle={"default"}
       />
-      )}
-      {screen === 'Search' && (
-        <SearchScreen
-        handleProductPress={handleProductPress}
-        handleBackPress={handleBackPress} />
-      )}
-      {screen === 'ProductDetail' && (
-        <ProductDetailScreen
-          product={selectedProduct}
-          handleBackPress={handleBackPress}
-        />
-      )}
-    </View>
+      <Navigator />
+    </>
+
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 50,
-  }
 });
