@@ -17,17 +17,20 @@ export default function Navigator() {
                     ({ route }) => {
                         return {
                             header: () => {
-                                return <Header title={
-                                    route.name==='ProductDetail'?route.params.product.title:'Shop'
+                                return <>
+                                <Header title={
+                                    route.name === 'ProductDetail' ? route.params.product.title : 'Shop'
                                 } route={route} />
-                            }
+                                </>
+                            },
+                            headerShown: route.name !== 'Search',
                         }
                     }
                 }
             >
                 <Stack.Screen name="Home" component={HomeScreen} />
                 <Stack.Screen name="Search" component={SearchScreen} />
-                <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+                <Stack.Screen name="ProductDetail" component={ProductDetailScreen}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

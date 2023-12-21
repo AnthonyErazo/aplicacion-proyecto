@@ -1,11 +1,11 @@
-import { View } from 'react-native';
+import { View,ScrollView } from 'react-native';
 import ProductDetail from '../components/ProductDetail';
 
 export default function ProductDetailScreen({ navigation,route }) {
     const {product}=route.params
     return (
-        <View>
+        <ScrollView>
             <ProductDetail product={product} />
-        </View>
+        </ScrollView>
     );
 }

@@ -1,6 +1,6 @@
 import { TextInput, StyleSheet, View, Pressable} from 'react-native';
 import { AntDesign } from "@expo/vector-icons"
-import { colors } from '../global/color'
+import { colors } from '../global/Color'
 
 export default function SearchBar({navigation,searchText,setSearchText}) {
     

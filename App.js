@@ -1,6 +1,6 @@
 import { useFonts } from 'expo-font';
 import { StyleSheet,StatusBar } from 'react-native';
-import { colors } from './src/global/color';
+import { colors } from './src/global/Color';
 import Navigator from './src/navigation/Navigator';
 import { fonts } from './src/global/fonts';
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, FlatList, Text, Pressable,StyleSheet } from 'react-native';
+import { View, FlatList, Text, Pressable,StyleSheet,SafeAreaView,ScrollView } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import ProductList from '../components/ProductList';
 import products from '../data/products.json';
@@ -29,25 +29,33 @@ export default function HomeScreen({ navigation}) {
     };
 
     return (
-        <View>
-            <SearchBar navigation={navigation}/>
-            <Pressable style={styles.selectButton} onPress={openModal}>
-                <Text style={styles.selectButtonText}>Seleccionar categoría</Text>
-            </Pressable>
-            <FlatList
-                data={items}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <ProductList
-                product={item}
-                navigation={navigation}
-                />}
-            />
-            <ModalCategories 
-            modalVisible={modalVisible}
-            closeModal={closeModal}
-            selectCategory={selectCategory}
-            />
-        </View>
+        <ScrollView>
+            <SafeAreaView>
+                <View>
+                <SearchBar navigation={navigation}/>
+                <Pressable style={styles.selectButton} onPress={openModal}>
+                    <Text style={styles.selectButtonText}>Seleccionar categoría</Text>
+                </Pressable>
+                <Text>Publicidad</Text>
+                <Text>Recomendados</Text>
+                <Text>Destacados</Text>
+                <FlatList
+                    data={items}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => <ProductList
+                    product={item}
+                    navigation={navigation}
+                    />}
+                />
+                <ModalCategories
+                modalVisible={modalVisible}
+                closeModal={closeModal}
+                selectCategory={selectCategory}
+                />
+            </View>
+            </SafeAreaView>
+        </ScrollView>
+        
     );
 };
 
