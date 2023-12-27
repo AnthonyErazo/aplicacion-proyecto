@@ -1,42 +1,42 @@
-import { useEffect, useState } from 'react';
-import { View, StyleSheet, Pressable, Text, FlatList } from 'react-native';
+import { useState } from 'react';
+import { View, StyleSheet, Text, FlatList } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import SearchBar from '../components/SearchBar';
-import products from '../data/products.json'
 import ProductList from '../components/ProductList';
+import { useSelector, useDispatch } from 'react-redux'
+import { setProductSearch } from '../features/shopSlice';
+
 export default function SearchScreen({ navigation }) {
+    const dispatch = useDispatch()
     const [searchText, setSearchText] = useState('');
-    const [items, setItems] = useState([])
-    let filteredItems
-    useEffect(() => {
-        setItems(products);
-    }, []);
-    if (searchText === '') {
-        filteredItems = []
-    } else {
-        filteredItems = items.filter((item) =>
-            item.title.toLowerCase().includes(searchText.toLowerCase())
-        );
+    const [textEnter, setTextEnter] = useState('');
+    const productSearch = useSelector(state => state.shop.value.productSearch)
+    const handleSearch = () => {
+        dispatch(setProductSearch(searchText))
+        setTextEnter(searchText)
     }
 
     return (
         <View>
             <View style={styles.inputContainer}>
                 <View style={styles.searchBarContainer}>
-                    <SearchBar searchText={searchText} setSearchText={setSearchText} />
+                    <SearchBar
+                        searchText={searchText}
+                        setSearchText={setSearchText}
+                        onSearch={handleSearch} />
                 </View>
             </View>
-            {((filteredItems.length > 0) || (searchText === '')) ? (
+            {((productSearch.length > 0) || (textEnter === '')) ? (
                 <></>
             ) : (
                 <View style={styles.noProductContainer}>
                     <Text style={styles.noProductText}>
-                        Producto no encontrado "{searchText}"
+                        No se encontraron resultados para "{textEnter}"
                     </Text>
                 </View>
             )}
             <FlatList
-                data={filteredItems}
+                data={productSearch}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <ProductList
                     product={item}

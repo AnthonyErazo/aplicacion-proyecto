@@ -3,6 +3,8 @@ import { StyleSheet,StatusBar } from 'react-native';
 import { colors } from './src/global/color';
 import Navigator from './src/navigation/Navigator';
 import { fonts } from './src/global/fonts';
+import { store } from './src/app/store'
+import { Provider } from 'react-redux'
 
 export default function App() {
 
@@ -15,7 +17,9 @@ export default function App() {
         backgroundColor={colors.green2}
         barStyle={"default"}
       />
-      <Navigator />
+      <Provider store={store}>
+        <Navigator />
+      </Provider>
     </>
 
   );
