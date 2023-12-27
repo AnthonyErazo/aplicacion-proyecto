@@ -8,16 +8,12 @@ import CategoriesScreen from '../screens/CategoriesScreen'
 import Header from '../components/Header'
 import { Ionicons } from '@expo/vector-icons';
 import CartScreen from '../screens/CartScreen'
-import ProductCategories from '../screens/ProductCategoriesScreen'
-import CategoriesStack from './CategoriesStack'
-
-
-const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const MainTabNavigator = () => {
+export default function TabNavigator() {
     return (
-        <Tab.Navigator
+        <NavigationContainer>
+            <Tab.Navigator
             screenOptions={({ route }) => ({
                 headerShown: false,
                 tabBarLabel: () => null,
@@ -28,7 +24,7 @@ const MainTabNavigator = () => {
                         iconName = 'home';
                     } else if (route.name === 'Search') {
                         iconName = 'search';
-                    } else if (route.name === 'CategoriesStack') {
+                    } else if (route.name === 'Categories') {
                         iconName = 'menu';
                     } else if (route.name === 'Cart') {
                         iconName = 'cart';
@@ -52,8 +48,8 @@ const MainTabNavigator = () => {
                 options={{ tabBarLabel: 'Home' }}
             />
             <Tab.Screen
-                name="CategoriesStack"
-                component={CategoriesStack}
+                name="Categories"
+                component={CategoriesScreen}
                 options={{ tabBarLabel: 'Categories' }}
             />
             <Tab.Screen
@@ -67,25 +63,6 @@ const MainTabNavigator = () => {
                 options={{ tabBarLabel: 'Cart' }}
             />
         </Tab.Navigator>
-    );
-};
-
-export default function Navigator() {
-    return (
-        <NavigationContainer>
-            <Stack.Navigator
-                initialRouteName='MainTabs'
-                screenOptions={
-                    () => {
-                        return {
-                            headerShown: false,
-                        }
-                    }
-                }
-            >
-                <Stack.Screen name="MainTabs" component={MainTabNavigator} />
-                <Stack.Screen name="ProductDetail" component={ProductDetailScreen}/>
-            </Stack.Navigator>
         </NavigationContainer>
     )
 }
