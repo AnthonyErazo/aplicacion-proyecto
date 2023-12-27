@@ -1,55 +1,61 @@
 import { useState } from 'react';
-import { View, Text, Image, StyleSheet, Pressable, FlatList } from 'react-native';
+import { View, Text, Image, StyleSheet, Pressable, FlatList,ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ProductDetail({ product }) {
   const [selectedImage, setSelectedImage] = useState(product.thumbnail);
+  const navigation = useNavigation();
 
-  const handleImageSelect = (image) => {
-    setSelectedImage(image);
-  };
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: selectedImage }} style={styles.mainImage} />
-      <Text style={styles.title}>{product.title}</Text>
-      <Text style={styles.brand}>{product.brand}</Text>
-      <Text style={styles.price}>${product.price}</Text>
-      <Text style={styles.description}>{product.description}</Text>
-      <View style={styles.ratingContainer}>
-        {product.rating && (
-          <>
-            <Text style={styles.ratingTitle}>
-              Rating:{' '}
-              {[...Array(Math.floor(product.rating))].map((_, index) => (
-                <AntDesign key={index} name="star" size={20} color="#f1c40f" style={styles.star} />
-              ))}{' '}
-              {product.rating}
-            </Text>
-          </>
-        )}
-      </View>
-      <View style={styles.imageContainer}>
-        {product.images && product.images.length > 0 && (
-          <>
-            <Text style={styles.imageTitle}>More Images:</Text>
-            <FlatList
-              data={product.images}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <Pressable
-                  onPress={() => handleImageSelect(item)}
-                  style={styles.imageButton}
-                >
-                  <Image source={{ uri: item }} style={styles.additionalImage} />
-                </Pressable>
-              )}
-            />
-          </>
-        )}
-      </View>
-    </View>
+    <ScrollView>
+        <View>
+          <Pressable onPress={()=>navigation.goBack()}>
+            <Text>Ir atras</Text>
+          </Pressable>
+        </View>
+        <View style={styles.container}>
+          <Image source={{ uri: selectedImage }} style={styles.mainImage} />
+          <Text style={styles.title}>{product.title}</Text>
+          <Text style={styles.brand}>{product.brand}</Text>
+          <Text style={styles.price}>${product.price}</Text>
+          <Text style={styles.description}>{product.description}</Text>
+          <View style={styles.ratingContainer}>
+            {product.rating && (
+              <>
+                <Text style={styles.ratingTitle}>
+                  Rating:{' '}
+                  {[...Array(Math.floor(product.rating))].map((_, index) => (
+                    <AntDesign key={index} name="star" size={20} color="#f1c40f" style={styles.star} />
+                  ))}{' '}
+                  {product.rating}
+                </Text>
+              </>
+            )}
+          </View>
+          <View style={styles.imageContainer}>
+            {product.images && product.images.length > 0 && (
+              <>
+                <Text style={styles.imageTitle}>More Images:</Text>
+                <FlatList
+                  data={product.images}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={({ item }) => (
+                    <Pressable
+                      onPress={() => setSelectedImage(item)}
+                      style={styles.imageButton}
+                    >
+                      <Image source={{ uri: item }} style={styles.additionalImage} />
+                    </Pressable>
+                  )}
+                />
+              </>
+            )}
+          </View>
+        </View>
+    </ScrollView>
   );
 }
 

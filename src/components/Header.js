@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import {colors} from '../global/Color'
+import {colors} from '../global/color'
 
 export default function Header({title}) {
     return (

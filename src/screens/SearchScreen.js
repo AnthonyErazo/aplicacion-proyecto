@@ -22,9 +22,6 @@ export default function SearchScreen({ navigation }) {
     return (
         <View>
             <View style={styles.inputContainer}>
-                <Pressable style={styles.backContainer} onPress={()=>navigation.navigate("Home")}>
-                    <AntDesign name="arrowleft" size={24} color="black" />
-                </Pressable>
                 <View style={styles.searchBarContainer}>
                     <SearchBar searchText={searchText} setSearchText={setSearchText} />
                 </View>
