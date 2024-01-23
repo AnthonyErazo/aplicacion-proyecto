@@ -4,7 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 import SearchBar from '../components/SearchBar';
 import ProductList from '../components/ProductList';
 import { useSelector, useDispatch } from 'react-redux'
-import { setProductSearch } from '../features/shopSlice';
+import { setProductSearch } from '../features/shop/shopSlice';
 
 export default function SearchScreen({ navigation }) {
     const dispatch = useDispatch()

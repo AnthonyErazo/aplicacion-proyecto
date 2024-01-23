@@ -4,18 +4,21 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import HomeScreen from '../screens/HomeScreen'
 import SearchScreen from '../screens/SearchScreen'
 import ProductDetailScreen from '../screens/ProductDetailScreen'
-import CategoriesScreen from '../screens/CategoriesScreen'
 import Header from '../components/Header'
 import { Ionicons } from '@expo/vector-icons';
 import CartScreen from '../screens/CartScreen'
-import ProductCategories from '../screens/ProductCategoriesScreen'
 import CategoriesStack from './CategoriesStack'
+import AuthStack from './AuthStack'
+import { useSelector } from 'react-redux'
+import ProfileStack from './ProfileStack'
 
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainTabNavigator = () => {
+    const idToken = useSelector(state => state.auth.value.idToken)
+    console.log(idToken)
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -58,8 +61,8 @@ const MainTabNavigator = () => {
             />
             <Tab.Screen
                 name="Search"
-                component={SearchScreen}
-                options={{ tabBarLabel: 'Search' }}
+                component={idToken?ProfileStack:AuthStack}
+                options={{ tabBarLabel: 'Account' }}
             />
             <Tab.Screen
                 name="Cart"
@@ -84,6 +87,7 @@ export default function Navigator() {
                 }
             >
                 <Stack.Screen name="MainTabs" component={MainTabNavigator} />
+                <Stack.Screen name="Authentication" component={AuthStack}/>
                 <Stack.Screen name="ProductDetail" component={ProductDetailScreen}/>
             </Stack.Navigator>
         </NavigationContainer>

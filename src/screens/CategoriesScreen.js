@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet, Pressable, FlatList } from 'react-native';
 import { useSelector,useDispatch } from 'react-redux'
-import { setProductsFilteredByCategory } from "../features/shopSlice"
+import { setProductsFilteredByCategory } from "../features/shop/shopSlice"
+import { useGetCategoriesQuery } from '../app/services/shopServices';
 
 export default function CategoriesScreen({ navigation }) {
-    const categories = useSelector((state) => state.shop.value.categories)
+    // const categories = useSelector((state) => state.shop.value.categories)
+    const {data:categories,isLoading,error}= useGetCategoriesQuery()
     const dispatch = useDispatch()
     const formatCategory = (category) => {
         return category.replace(/-/, ' ').replace(/\b\w/g, (char) => char.toUpperCase());

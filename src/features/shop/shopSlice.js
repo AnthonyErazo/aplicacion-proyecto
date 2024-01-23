@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import allProducts from "../data/products.json"
-import allCategories from "../data/categories.json"
+import allProducts from "../../data/products.json"
+import allCategories from "../../data/categories.json"
+// import { useGetCategoriesQuery } from '../app/services/shopServices'
+// const {data:allCategories,isLoading,error} =useGetCategoriesQuery()
 
 const initialState = {
     value: {

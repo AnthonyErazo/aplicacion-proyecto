@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, Pressable, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux'
-import { setProductSelected } from '../features/shopSlice';
+import { setProductSelected } from '../features/shop/shopSlice';
 import { AntDesign } from '@expo/vector-icons';
 
 export default function ProductCategoriesScreen({ navigation, route }) {

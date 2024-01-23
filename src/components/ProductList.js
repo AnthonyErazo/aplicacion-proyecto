@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { setProductSelected } from '../features/shopSlice';
+import { setProductSelected } from '../features/shop/shopSlice';
 import {AntDesign} from '@expo/vector-icons'
 import { Dimensions } from 'react-native';
 
