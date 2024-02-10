@@ -1,10 +1,15 @@
 import { useFonts } from 'expo-font';
-import { StyleSheet,StatusBar } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 import { colors } from './src/global/color';
 import Navigator from './src/navigation/Navigator';
 import { fonts } from './src/global/fonts';
 import { store } from './src/app/store'
 import { Provider } from 'react-redux'
+import { init } from './src/database';
+
+init()
+  .then(()=>console.log("DB initialized"))
+  .catch(err=>console.log(err))
 
 export default function App() {
 

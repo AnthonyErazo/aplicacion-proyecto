@@ -25,13 +25,25 @@ export const userApi = createApi({
             query: ({ localId, dataProfile }) => ({
                 url: `users/${localId}/dataProfile.json`,
                 method: "PUT",
-                body: {dataProfile}
+                body: dataProfile
             }),
             invalidatesTags: ["dataProfile"]
         }),
         getProfileData: builder.query({
             query: (localId) => `users/${localId}/dataProfile.json`,
             providesTags: ["dataProfile"]
+        }),
+        postUserLocation: builder.mutation({
+            query: ({ localId, locationFormatted }) => ({
+                url: `users/${localId}/location.json`,
+                method: "PUT",
+                body: {location:locationFormatted}
+            }),
+            invalidatesTags: ["location"]
+        }),
+        getUserLocation: builder.query({
+            query: (localId) => `users/${localId}/location.json`,
+            providesTags: ["location"]
         }),
     }),
 })
@@ -42,4 +54,6 @@ export const {
     usePostProfileDataMutation,
     useGetProfileImageQuery,
     usePostProfileImageMutation,
+    usePostUserLocationMutation,
+    useGetUserLocationQuery
 } = userApi

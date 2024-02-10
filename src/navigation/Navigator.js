@@ -5,7 +5,7 @@ import HomeScreen from '../screens/HomeScreen'
 import SearchScreen from '../screens/SearchScreen'
 import ProductDetailScreen from '../screens/ProductDetailScreen'
 import Header from '../components/Header'
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CartScreen from '../screens/CartScreen'
 import CategoriesStack from './CategoriesStack'
 import AuthStack from './AuthStack'
@@ -18,7 +18,7 @@ const Tab = createBottomTabNavigator();
 
 const MainTabNavigator = () => {
     const idToken = useSelector(state => state.auth.value.idToken)
-    console.log(idToken)
+    console.log('idToken: ',idToken)
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -29,15 +29,15 @@ const MainTabNavigator = () => {
 
                     if (route.name === 'Home') {
                         iconName = 'home';
-                    } else if (route.name === 'Search') {
-                        iconName = 'search';
+                    } else if (route.name === 'Account') {
+                        iconName = 'account';
                     } else if (route.name === 'CategoriesStack') {
                         iconName = 'menu';
                     } else if (route.name === 'Cart') {
                         iconName = 'cart';
                     }
 
-                    return <Ionicons name={iconName} size={size} color={color} />;
+                    return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
                 },
                 header: () => {
                     return <>
@@ -60,7 +60,7 @@ const MainTabNavigator = () => {
                 options={{ tabBarLabel: 'Categories' }}
             />
             <Tab.Screen
-                name="Search"
+                name="Account"
                 component={idToken?ProfileStack:AuthStack}
                 options={{ tabBarLabel: 'Account' }}
             />

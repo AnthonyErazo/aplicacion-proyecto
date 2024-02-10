@@ -1,9 +1,11 @@
+import { useGetProductQuery } from '../app/services/shopServices';
+import Loading from '../components/Loading';
 import ProductDetail from '../components/ProductDetail';
-import { useSelector } from 'react-redux'
 
 export default function ProductDetailScreen({ navigation,route }) {
-    const productSelected = useSelector((state) => state.shop.value.productSelected)
-    const {product}=route.params
+    const {productId}=route.params
+    const {data:productSelected,isLoading}= useGetProductQuery(productId)
+    if(isLoading) return <Loading />
     return (
         <>
             <ProductDetail product={productSelected} />

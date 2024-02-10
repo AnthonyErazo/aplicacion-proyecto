@@ -1,12 +1,13 @@
 import { View, Text, StyleSheet, Image, Pressable, FlatList } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux'
-import { setProductSelected } from '../features/shop/shopSlice';
 import { AntDesign } from '@expo/vector-icons';
+import { useGetProductsByCategoriesQuery } from '../app/services/shopServices';
+import Loading from '../components/Loading';
 
 export default function ProductCategoriesScreen({ navigation, route }) {
-    const dispatch = useDispatch()
-    const productsFilteredByCategory = useSelector(state => state.shop.value.productsFilteredByCategory)
     const { item } = route.params
+    const {data:productsFilteredByCategory,isLoading}= useGetProductsByCategoriesQuery(item)
+    if(isLoading||!productsFilteredByCategory) return <Loading />
+    const productList = Object.values(productsFilteredByCategory);
     return (
         <>
             <Pressable
@@ -19,11 +20,10 @@ export default function ProductCategoriesScreen({ navigation, route }) {
             </Pressable>
             <FlatList
             style={styles.container}
-                data={productsFilteredByCategory}
+                data={productList}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <Pressable onPress={() => {
-                    dispatch(setProductSelected(item))
-                    navigation.navigate("ProductDetail", { product: item })
+                    navigation.navigate("ProductDetail", { productId: item.id })
                 }}>
                     <View style={styles.productItem}>
                         <Image style={styles.thumbnail} source={{ uri: item.thumbnail }} />

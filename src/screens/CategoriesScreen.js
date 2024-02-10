@@ -1,15 +1,13 @@
 import { View, Text, StyleSheet, Pressable, FlatList } from 'react-native';
-import { useSelector,useDispatch } from 'react-redux'
-import { setProductsFilteredByCategory } from "../features/shop/shopSlice"
 import { useGetCategoriesQuery } from '../app/services/shopServices';
+import Loading from '../components/Loading';
 
 export default function CategoriesScreen({ navigation }) {
-    // const categories = useSelector((state) => state.shop.value.categories)
-    const {data:categories,isLoading,error}= useGetCategoriesQuery()
-    const dispatch = useDispatch()
+    const {data:categories,isLoading}= useGetCategoriesQuery()
     const formatCategory = (category) => {
         return category.replace(/-/, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
     };
+    if(isLoading) return <Loading />
     return (
         <View style={styles.modalContainer}>
             <FlatList
@@ -17,7 +15,6 @@ export default function CategoriesScreen({ navigation }) {
                 keyExtractor={(item) => item}
                 renderItem={({ item }) => (
                     <Pressable onPress={() => {
-                        dispatch(setProductsFilteredByCategory(item))
                         navigation.navigate('ProductCategories', { item })
                     }} style={styles.categoryItem}>
                         <Text>{formatCategory(item)}</Text>

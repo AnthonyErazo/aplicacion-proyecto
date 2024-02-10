@@ -11,14 +11,13 @@ export default function ImageSelectorScreen({ navigation }) {
     const [triggerProfileImage] = usePostProfileImageMutation()
     const localId = useSelector(state => state.auth.value.localId)
     const { data, isSuccess } = useGetProfileImageQuery(localId)
-    console.log(data.image)
+    console.log(data?.image)
 
     useEffect(() => {
         if (isSuccess && data) setImage(data.image)
     }, [isSuccess])
 
     const pickImage = async () => {
-
         const { granted } = await ImagePicker.requestCameraPermissionsAsync()
 
         if (granted) {
