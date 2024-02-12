@@ -11,8 +11,11 @@ export const init = () => {
                 (_, err) => reject(err))
         })
     })
-    return promise
+
+    return promise;
 }
+
+
 export const insertSession = ({ localId, email, idToken }) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {

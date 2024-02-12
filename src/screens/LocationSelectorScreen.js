@@ -1,94 +1,115 @@
-import { StyleSheet, Text, View,Image,Pressable } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import * as Location from 'expo-location'
-import { googleApi } from '../firebase/googleApi'
-import { useSelector } from 'react-redux'
-import { usePostUserLocationMutation } from '../app/services/userService'
+import { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import { googleApi } from '../firebase/googleApi';
+import { useSelector } from 'react-redux';
+import { usePostUserLocationMutation } from '../app/services/userService';
+import SubmitButton from '../components/SubmitButton';
+import Loading from '../components/Loading';
 
-export default function LocationSelectorScreen ({navigation}) {
+export default function LocationSelectorScreen({ navigation, route }) {
+  const { latitude, longitude, address:userAddress } = route.params;
+  const localId = useSelector((state) => state.auth.value.localId);
 
-    const localId = useSelector(state => state.auth.value.localId)
-    const [location,setLocation] = useState({latitude:"",longitude:""})
-    const [address,setAddress] = useState("")
-    const [errorMsg, setErrorMsg] = useState(null)
-    const [triggerPostUserLocation] = usePostUserLocationMutation()
+  const [location, setLocation] = useState({ latitude, longitude });
+  const [address, setAddress] = useState(userAddress);
+  const [triggerPostUserLocation] = usePostUserLocationMutation();
+  const [loading,setLoading]=useState(true);
 
-    const mapPreviewUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${location.latitude},${location.longitude}
-    &zoom=15
-    &size=700x300
-    &maptype=roadmap
-    &markers=color:blue%7Clabel:D%7C${location.latitude},${location.longitude}
-    &key=${googleApi}`
-
-
-    useEffect(()=>{
-        (async ()=>{
-            let { status } = await Location.requestForegroundPermissionsAsync()
-            console.log('status: ')
-            console.log(status)
-            if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied')
-                return
-              }
-              let location = await Location.getCurrentPositionAsync({}) 
-              setLocation({
-                latitude:location.coords.latitude,
-                longitude:location.coords.longitude
-            })
-            
-            
-        })()
-    },[])
-
-    useEffect(()=>{
-      (async ()=>{
-        try {
-          if(location.latitude){
-            const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.latitude},${location.longitude}&key=${googleApi}`)
-
-            const data = await response.json()
-            setAddress(data.results[0].formatted_address)
-          }
-      
-        } catch (error) {
-          setErrorMsg(error.message)
-        }
-      })()
-    },[location])
-
-    const onConfirmAddress = async () => {
+  useEffect(() => {
+    (async () => {
       try {
-        const locationFormatted = {
-          address,
-          ...location
+        const response = await fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.latitude},${location.longitude}&key=${googleApi}`
+        );
+        const data = await response.json();
+        if (data.results.length > 0) {
+          setAddress(data.results[0].formatted_address);
         }
-        const data =  await triggerPostUserLocation({localId,locationFormatted})
-        console.log(data)
-        navigation.goBack()
       } catch (error) {
-        setErrorMsg(error.message)
+        console.log(error.message);
+      }finally{
+        setLoading(false)
       }
+    })();
+  }, [location]);
 
+  const handleMapPress = (event) => {
+    const { latitude: latitudeEvent, longitude: longitudeEvent } = event.nativeEvent.coordinate;
+    setLocation({ latitude:latitudeEvent, longitude:longitudeEvent });
+  };
+  
+
+  const onConfirmAddress = async () => {
+    try {
+      const locationFormatted = {
+        address,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      };
+      await triggerPostUserLocation({ localId, locationFormatted });
+      navigation.goBack();
+    } catch (error) {
+      console.log(error.message);
     }
+  };
+  if(loading) return <Loading />
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{address} </Text>
-      <Image source={location.latitude ? {uri:mapPreviewUrl} : require("../../assets/user.png")} style={styles.image}/>
-      <Pressable style={styles.container} onPress={onConfirmAddress}>
-        <Text style={styles.text}>Confirmar Localizacion</Text>
-    </Pressable>
+      <Text style={styles.text}>{address}</Text>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: latitude,
+          longitude: longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+        onPress={handleMapPress}
+      >
+        <Marker coordinate={location} />
+      </MapView>
+      <SubmitButton
+      text
+      title={"Cancelar"} 
+      actionButton={()=>navigation.goBack()}
+      />
+      <SubmitButton
+      text
+      title={"Confirmar Ubicación"} 
+      actionButton={onConfirmAddress}
+      />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-    container:{
-        alignItems:"center",
-        marginTop:40,
-        gap:20
-    },
-    text:{
-        fontSize:16
-    }
-})
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  map: {
+    flex: 1,
+    width: '100%',
+  },
+  text: {
+    fontSize: 16,
+  },
+  confirmButton: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+    backgroundColor: 'blue',
+    padding: 15,
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  confirmButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});

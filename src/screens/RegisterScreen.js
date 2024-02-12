@@ -63,7 +63,12 @@ export default function RegisterScreen({ navigation }) {
                 .then(result => console.log(result))
                 .catch(err => console.log(err))
         }
-        if (isError) console.log(error)
+        if (isError) {
+            console.log(error)
+            if(error.data.error.message=="EMAIL_EXISTS"){
+                setEmailError("El email ya existe")
+            }
+        }
     }, [data, isError, isSuccess])
 
 
@@ -77,6 +82,7 @@ export default function RegisterScreen({ navigation }) {
             setConfirmPasswordError("")
             loginSchema.validateSync({ email, password, confirmPassword, name, lastName, birthday })
             triggerSignup({ email, password })
+            console.log(error) 
         } catch (error) {
             console.log(error)
             switch (error.path) {
@@ -158,12 +164,17 @@ export default function RegisterScreen({ navigation }) {
                     error={confirmPasswordError}
 
                 />
-                <SubmitButton title="Send" onPress={onSubmit}
+                <SubmitButton 
+                text
+                title="Send" 
+                actionButton={onSubmit}
                 />
                 <Text style={styles.sub}>Alredy have an account?</Text>
-                <Pressable onPress={() => navigation.navigate("Login")}>
-                    <Text style={styles.subLink}>Login</Text>
-                </Pressable>
+                <SubmitButton 
+                text
+                actionButton={() => navigation.navigate("Login")}
+                title={"Login"}
+                />
             </View>
         </View>
     )

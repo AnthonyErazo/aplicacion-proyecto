@@ -6,19 +6,41 @@ import SearchScreen from '../screens/SearchScreen'
 import ProductDetailScreen from '../screens/ProductDetailScreen'
 import Header from '../components/Header'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import CartScreen from '../screens/CartScreen'
 import CategoriesStack from './CategoriesStack'
 import AuthStack from './AuthStack'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ProfileStack from './ProfileStack'
+import { setUser } from '../features/auth/authSlice'
+import { fechSession } from '../database'
+import { useEffect } from 'react'
+import CartStack from './CartStack'
+import { useGetProductsQuery } from '../app/services/shopServices'
+import { setAllProducts } from '../features/shop/shopSlice'
 
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainTabNavigator = () => {
+    const dispatch = useDispatch()
     const idToken = useSelector(state => state.auth.value.idToken)
-    console.log('idToken: ',idToken)
+
+    useEffect(() => {
+        fechSession()
+            .then(result => {
+                console.log(result)
+                if(result.rows.length>0){
+                    const { email, localId, idToken } = result.rows._array[0]
+                    const data = {
+                        email,
+                        localId,
+                        idToken
+                    }
+                    dispatch(setUser(data))
+                }
+            })
+            .catch(err => console.log(err))
+    }, []);
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -61,12 +83,12 @@ const MainTabNavigator = () => {
             />
             <Tab.Screen
                 name="Account"
-                component={idToken?ProfileStack:AuthStack}
+                component={idToken ? ProfileStack : AuthStack}
                 options={{ tabBarLabel: 'Account' }}
             />
             <Tab.Screen
                 name="Cart"
-                component={CartScreen}
+                component={CartStack}
                 options={{ tabBarLabel: 'Cart' }}
             />
         </Tab.Navigator>
@@ -87,8 +109,8 @@ export default function Navigator() {
                 }
             >
                 <Stack.Screen name="MainTabs" component={MainTabNavigator} />
-                <Stack.Screen name="Authentication" component={AuthStack}/>
-                <Stack.Screen name="ProductDetail" component={ProductDetailScreen}/>
+                <Stack.Screen name="Authentication" component={AuthStack} />
+                <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

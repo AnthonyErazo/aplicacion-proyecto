@@ -1,6 +1,7 @@
 import { TextInput, StyleSheet, View, Pressable } from 'react-native';
 import { AntDesign } from "@expo/vector-icons"
 import { colors } from '../global/color'
+import SubmitButton from './SubmitButton';
 
 export default function SearchBar({ navigation, searchText, setSearchText,onSearch }) {
 
@@ -14,9 +15,14 @@ export default function SearchBar({ navigation, searchText, setSearchText,onSear
                     onChangeText={(text) => setSearchText(text)}
                     onSubmitEditing={onSearch}
                 />
-                <Pressable style={styles.searchIcon} onPress={onSearch}>
-                    <AntDesign name='search1' color="black" size={25} />
-                </Pressable>
+                <SubmitButton
+                nameIcon={'search1'}
+                colorIcon={"black"}
+                sizeIcon={25}
+                icon
+                containerStyle={styles.searchIcon}
+                actionButton={onSearch}
+                />
             </View>
         </View>
     );

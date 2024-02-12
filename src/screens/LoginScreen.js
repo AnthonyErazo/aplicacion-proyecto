@@ -13,17 +13,9 @@ export default function LoginScreen({ navigation }) {
     const [triggerLogin, { data, isError, isSuccess, error, isLoading }] = useLoginMutation()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    console.log(data)
-    console.log(data?.email)
-    console.log(data?.idToken)
-    console.log(data?.localId)
-    console.log(isError)
-    console.log(error)
 
     useEffect(() => {
         if (isSuccess) {
-            console.log('first')
-            console.log(data)
             dispatch(setUser(data))
             insertSession({ localId: data.localId, email: data.email, idToken: data.idToken })
                 .then(result => console.log(result))
@@ -55,11 +47,17 @@ export default function LoginScreen({ navigation }) {
                     isSecure={true}
                     error=""
                 />
-                <SubmitButton onPress={onSubmit} title="Send" />
+                <SubmitButton 
+                text
+                actionButton={onSubmit} 
+                title="Send" 
+                />
                 <Text style={styles.sub}>Not have an account?</Text>
-                <Pressable onPress={() => navigation.navigate("Register")} >
-                    <Text style={styles.subLink}>Sign up</Text>
-                </Pressable>
+                <SubmitButton 
+                text
+                actionButton={() => navigation.navigate("Register")}
+                title={"Sign up"}
+                />
                 {isError ? <Text style={styles.sub}>Correo o contraseña invalido</Text> : <></>}
             </View>
         </View>

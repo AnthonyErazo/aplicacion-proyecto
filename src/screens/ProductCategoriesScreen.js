@@ -1,32 +1,46 @@
 import { View, Text, StyleSheet, Image, Pressable, FlatList } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
 import { useGetProductsByCategoriesQuery } from '../app/services/shopServices';
 import Loading from '../components/Loading';
+import SubmitButton from '../components/SubmitButton';
+import { useEffect, useState } from 'react';
 
 export default function ProductCategoriesScreen({ navigation, route }) {
     const { item } = route.params
-    const {data:productsFilteredByCategory,isLoading}= useGetProductsByCategoriesQuery(item)
-    if(isLoading||!productsFilteredByCategory) return <Loading />
-    const productList = Object.values(productsFilteredByCategory);
+    const { data, isLoading,isSuccess } = useGetProductsByCategoriesQuery(item)
+    const [products,setProducts]=useState([])
+    
+
+    useEffect(() => {
+        if (isSuccess && data) {
+            setProducts(Object.values(data))
+        }
+    }, [isSuccess, data])
+
+
+    if (isLoading || !data) return <Loading />
     return (
         <>
-            <Pressable
-                style={styles.backButtonContainer}
-                onPress={() => navigation.goBack()}
-            >
-                <View style={styles.backButton}>
-                    <AntDesign name="left" size={30} color="#2c3e50" />
-                </View>
-            </Pressable>
+            <SubmitButton
+                icon
+                containerStyle={styles.backButtonContainer}
+                buttonStyle={styles.backButton}
+                sizeIcon={30}
+                colorIcon={"#2c3e50"}
+                nameIcon={"left"}
+                actionButton={() => navigation.goBack()}
+            />
             <FlatList
-            style={styles.container}
-                data={productList}
+                style={styles.container}
+                data={products}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <Pressable onPress={() => {
                     navigation.navigate("ProductDetail", { productId: item.id })
                 }}>
                     <View style={styles.productItem}>
-                        <Image style={styles.thumbnail} source={{ uri: item.thumbnail }} />
+                        <Image
+                            style={styles.thumbnail}
+                            source={{ uri: item.thumbnail }}
+                        />
                         <View style={styles.productDetails}>
                             <Text style={styles.productTitle}>{item.title}</Text>
                             <Text style={styles.productDescription}>{item.description}</Text>
@@ -42,8 +56,8 @@ export default function ProductCategoriesScreen({ navigation, route }) {
 };
 
 const styles = StyleSheet.create({
-    container:{
-        marginTop:90
+    container: {
+        marginTop: 90
     },
     productItem: {
         flexDirection: 'row',

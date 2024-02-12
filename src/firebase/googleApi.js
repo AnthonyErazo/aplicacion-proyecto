@@ -1,1 +1,1 @@
-export const googleApi="AIzaSyDq_lnNmY1isfR7LDl2SLIwD6vgAqXPfGA"
+export const googleApi="AIzaSyAvbtwVEHfLeD_RwiAcWQYKmWqfsN2aXQc"

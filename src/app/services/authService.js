@@ -24,5 +24,6 @@ export const authApi = createApi({
 
 export const {
     useSignupMutation,
-    useLoginMutation
+    useLoginMutation,
+    useChangeEmailMutation
 } = authApi

@@ -8,11 +8,9 @@ import { Dimensions } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 
 export default function ProductList({ product, navigation, displayRating, displayDiscount }) {
-  const dispatch = useDispatch();
 
   const handlePress = () => {
-    dispatch(setProductSelected(product));
-    navigation.navigate('ProductDetail', { product });
+    navigation.navigate('ProductDetail', { productId:product.id });
   };
 
   return (

@@ -2,19 +2,66 @@ import { View, Text, Image, StyleSheet, ScrollView, Pressable } from 'react-nati
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setProductCart } from '../features/cart/cartSlice';
+import SubmitButton from './SubmitButton';
+import ModalAlert from './ModalAlert';
+import Loading from './Loading';
 
 export default function ProductDetail({ product }) {
   const navigation = useNavigation();
+  const dispatch = useDispatch()
+  const [quantity, setQuantity] = useState(1)
+  const [subtotal, setSubtotal] = useState(product.price);
+  const [loadingImage, setLoadingImage] = useState(false);
+
+  const [modal, setModal] = useState(false);
+  const [textModal, setTextModal] = useState("");
+
+  const handleModalAction = () => {
+    dispatch(setProductCart({ product, quantity }))
+    setModal(false);
+  };
+
+  const quantityPlus = () => {
+    setQuantity(quantity + 1);
+    updateSubtotal(quantity + 1);
+  };
+
+  const quantityReduce = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+      updateSubtotal(quantity - 1);
+    }
+  };
+
+  const updateSubtotal = (qty) => {
+    const realPrice = (product.price - (product.price * product.discountPercentage) / 100).toFixed(2);
+    const newSubtotal = (realPrice * qty).toFixed(2);
+    setSubtotal(newSubtotal);
+  };
+
+  const addToCart = () => {
+    const realPrice = (product.price - (product.price * product.discountPercentage) / 100).toFixed(2);
+    const subtotal = (realPrice * quantity).toFixed(2);
+    setTextModal(
+      `Está por añadir:\nProducto: ${product.title}\nCantidad: ${quantity}\nPrecio Real: $${realPrice}\nSubtotal: $${subtotal}`
+    );
+    setModal(true);
+  };
+
   return (
     <ScrollView>
-      <Pressable
-        style={styles.backButtonContainer}
-        onPress={() => navigation.goBack()}
-      >
-        <View style={styles.backButton}>
-          <AntDesign name="left" size={30} color="#2c3e50" />
-        </View>
-      </Pressable>
+      <SubmitButton
+      icon
+      nameIcon={"left"}
+      sizeIcon={30}
+      colorIcon={"#2c3e50"}
+      buttonStyle={styles.backButton}
+      containerStyle={styles.backButtonContainer}
+      actionButton={() => navigation.goBack()}
+      />
       <View style={styles.container}>
         <Swiper
           style={styles.swiperContainer}
@@ -24,13 +71,24 @@ export default function ProductDetail({ product }) {
         >
           {product.images.map((image, index) => (
             <View key={index} style={styles.slide}>
-              <Image source={{ uri: image }} style={styles.additionalImage} />
+              <Image
+                source={{ uri: image }}
+                style={styles.additionalImage}
+                onLoadStart={()=>setLoadingImage(true)}
+                onLoadEnd={()=>{
+                  setLoadingImage(false)
+                }}
+              />
+              {loadingImage?<Loading />:<></>}
             </View>
           ))}
         </Swiper>
         <Text style={styles.title}>{product.title}</Text>
         <Text style={styles.brand}>{product.brand}</Text>
-        <Text style={styles.price}>${product.price}</Text>
+        <Text style={styles.priceStrike}>Precio: ${product.price.toFixed(2)}</Text>
+        <Text style={styles.priceDiscount}>
+          Descuento: {product.discountPercentage}% (Precio Real: ${(product.price - (product.price * product.discountPercentage) / 100).toFixed(2)})
+        </Text>
         <Text style={styles.description}>{product.description}</Text>
         <View style={styles.ratingContainer}>
           {product.rating && (
@@ -45,6 +103,31 @@ export default function ProductDetail({ product }) {
             </>
           )}
         </View>
+        <View style={styles.quantityContainer}>
+          <SubmitButton
+            text
+            actionButton={quantityReduce}
+            title={"-"}
+          />
+          <Text style={styles.quantityText}>{quantity}</Text>
+          <SubmitButton
+            text
+            actionButton={quantityPlus}
+            title={"+"}
+          />
+        </View>
+        <Text style={styles.subtotal}>Subtotal: ${subtotal}</Text>
+        <SubmitButton
+          text
+          actionButton={addToCart}
+          title={"Agregar al carrito"}
+        />
+        <ModalAlert
+          visible={modal}
+          modalText={textModal}
+          confirmAction={handleModalAction}
+          cancelAction={() => setModal(false)}
+        />
       </View>
     </ScrollView>
   );
@@ -73,10 +156,16 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     textAlign: 'center',
   },
-  price: {
+  priceStrike: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#e74c3c',
+    textDecorationLine: 'line-through',
+    color: 'red',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  priceDiscount: {
+    fontSize: 16,
+    color: 'green',
     marginBottom: 10,
     textAlign: 'center',
   },
@@ -125,5 +214,19 @@ const styles = StyleSheet.create({
     left: 20,
     zIndex: 1,
     elevation: 5,
+  },
+  quantityContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  quantityText: {
+    fontSize: 20,
+    marginHorizontal: 10,
+  },
+  subtotal: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
 });

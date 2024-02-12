@@ -3,46 +3,108 @@ import { Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import ProductList from '../components/ProductList';
 import Swiper from 'react-native-swiper';
 import products from '../data/products.json';
+import { useGetProductByDescountQuery, useGetProductByRatingQuery, useGetProductByStockQuery, useGetProductsQuery, useGetSomeCategoriesQuery } from '../app/services/shopServices';
+import Loading from '../components/Loading';
 
 export default function HomeScreen({ navigation }) {
-    const [items, setItems] = useState([]);
-    useEffect(() => {
-        setItems(products);
-    }, []);
+    const { data: dataRating, isSuccess: succesRating, isLoading: loadingRating } = useGetProductByRatingQuery()
+    const { data: dataStock, isSuccess: succesStock, isLoading: loadingStock } = useGetProductByStockQuery()
+    const { data: dataDescount, isSuccess: succesDescount, isLoading: loadingDescount } = useGetProductByDescountQuery()
+    const { data: dataSomeCategories, isSuccess: succesSomeCategories, isLoading: loadingSomeCategories } = useGetSomeCategoriesQuery()
 
-    const featuredByRating = [...items].sort((a, b) => b.rating - a.rating).slice(0, 8);
-    const featuredByDiscount = [...items].sort((a, b) => b.discountPercentage - a.discountPercentage).slice(0, 8);
+    const [itemRating, setItemRating] = useState([])
+    const [itemStock, setItemStock] = useState([])
+    const [itemDescount, setItemDescount] = useState([])
+    const [someCategories, setSomeCategories] = useState([])
+
+
+    function productsArray(data) {
+        return Object.keys(data).map(id => ({
+            id: parseInt(id),
+            ...data[id]
+        }));
+    }
+
+    useEffect(() => {
+        if (succesRating) {
+            setItemRating(productsArray(dataRating));
+        }
+    }, [dataRating, succesRating]);
+    useEffect(() => {
+        if (succesStock) {
+            setItemStock(productsArray(dataStock));
+        }
+    }, [dataStock, succesStock]);
+    useEffect(() => {
+        if (succesDescount) {
+            setItemDescount(productsArray(dataDescount));
+        }
+    }, [dataDescount, succesDescount]);
+    useEffect(() => {
+        if (succesSomeCategories) {
+            setSomeCategories(dataSomeCategories);
+        }
+    }, [dataSomeCategories, succesSomeCategories]);
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+            >
+                
                 <Text style={styles.title}>Productos Destacados</Text>
 
-                <Text style={styles.sectionTitle}>Mayor Rating</Text>
-                <Swiper
+                <Text style={styles.sectionTitle}>Productos más Populares</Text>
+                {loadingRating ? <Loading /> : <Swiper
                     style={styles.swiperContainer}
                     showsPagination={false}
                     contentContainerStyle={styles.swiperContentContainer}
                     loop
                     autoplay
                 >
-                    {featuredByRating.map((item) => (
+                    {itemRating.map((item) => (
                         <ProductList key={item.id} product={item} navigation={navigation} displayRating />
                     ))}
-                </Swiper>
+                </Swiper>}
 
-                <Text style={styles.sectionTitle}>Mayor Descuento</Text>
-                <Swiper
+                <Text style={styles.sectionTitle}>¡Corre que se Acaban!</Text>
+                {loadingStock ? <Loading /> : <Swiper
                     style={styles.swiperContainer}
                     showsPagination={false}
                     contentContainerStyle={styles.swiperContentContainer}
                     loop
                     autoplay
                 >
-                    {featuredByDiscount.map((item) => (
+                    {itemStock.map((item) => (
                         <ProductList key={item.id} product={item} navigation={navigation} displayDiscount />
                     ))}
-                </Swiper>
+                </Swiper>}
+
+                <Text style={styles.sectionTitle}>Ofertas Especiales</Text>
+                {loadingDescount ? <Loading /> : <Swiper
+                    style={styles.swiperContainer}
+                    showsPagination={false}
+                    contentContainerStyle={styles.swiperContentContainer}
+                    loop
+                    autoplay
+                >
+                    {itemDescount.map((item) => (
+                        <ProductList key={item.id} product={item} navigation={navigation} displayDiscount />
+                    ))}
+                </Swiper>}
+
+                <Text style={styles.sectionTitle}>Explorar Categorías</Text>
+
+                {loadingSomeCategories ? <Loading /> : <Swiper
+                    style={styles.swiperContainer}
+                    showsPagination={false}
+                    contentContainerStyle={styles.swiperContentContainer}
+                >
+                    {itemDescount.map((item) => (
+                        <ProductList key={item.id} product={item} navigation={navigation} displayDiscount />
+                    ))}
+                </Swiper>}
+
             </ScrollView>
         </SafeAreaView>
     );
@@ -50,9 +112,7 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 20,
-        paddingBottom: 40,
+        
     },
     title: {
         fontSize: 24,

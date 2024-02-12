@@ -17,6 +17,19 @@ export const shopApi = createApi({
         getProduct: builder.query({
             query: (id) => `products/${id}.json`,
         }),
+        getProductByRating: builder.query({
+            query: () => `products.json?orderBy="rating"&limitToLast=5`,
+        }),
+        getProductByStock: builder.query({
+            query: () => `products.json?orderBy="stock"&limitToFirst=5`,
+        }),
+        getProductByDescount: builder.query({
+            query: () => `products.json?orderBy="discountPercentage"&limitToLast=5`,
+        }),
+        getSomeCategories: builder.query({
+            query: () => `categories.json`,
+            transformResponse: (response) => response.slice(0, 5),
+        }),
     }),
 })
 
@@ -24,5 +37,9 @@ export const {
     useGetProductsQuery,
     useGetProductQuery,
     useGetProductsByCategoriesQuery,
-    useGetCategoriesQuery
+    useGetCategoriesQuery,
+    useGetProductByRatingQuery,
+    useGetProductByStockQuery,
+    useGetProductByDescountQuery,
+    useGetSomeCategoriesQuery
 } = shopApi
