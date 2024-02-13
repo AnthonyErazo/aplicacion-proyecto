@@ -7,7 +7,7 @@ const Stack = createNativeStackNavigator()
 export default function CategoriesStack () {
   return (
     <Stack.Navigator
-    initialRouteName='Categories'
+    initialRouteName='AllCategories'
     screenOptions={
         () => {
             return {
@@ -16,7 +16,7 @@ export default function CategoriesStack () {
         }
     }
     >
-        <Stack.Screen name="Categories" component={CategoriesScreen} />
+        <Stack.Screen name="AllCategories" component={CategoriesScreen} />
         <Stack.Screen name="ProductCategories" component={ProductCategories} />
     </Stack.Navigator>
   )

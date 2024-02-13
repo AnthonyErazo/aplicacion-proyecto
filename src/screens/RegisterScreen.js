@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { View, Text, StyleSheet, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native'
 import InputForm from '../components/InputForm'
 import SubmitButton from '../components/SubmitButton'
 import { useSignupMutation } from '../app/services/authService'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setUser } from '../features/auth/authSlice'
 import { loginSchema } from '../validations/loginSchema'
 import { usePostProfileDataMutation } from '../app/services/userService'
 import { insertSession } from '../database';
+import WaveLoading from '../components/WaveLoading';
 
 export default function RegisterScreen({ navigation }) {
     const dispatch = useDispatch()
@@ -65,7 +66,7 @@ export default function RegisterScreen({ navigation }) {
         }
         if (isError) {
             console.log(error)
-            if(error.data.error.message=="EMAIL_EXISTS"){
+            if (error.data.error.message == "EMAIL_EXISTS") {
                 setEmailError("El email ya existe")
             }
         }
@@ -82,7 +83,7 @@ export default function RegisterScreen({ navigation }) {
             setConfirmPasswordError("")
             loginSchema.validateSync({ email, password, confirmPassword, name, lastName, birthday })
             triggerSignup({ email, password })
-            console.log(error) 
+            console.log(error)
         } catch (error) {
             console.log(error)
             switch (error.path) {
@@ -111,75 +112,128 @@ export default function RegisterScreen({ navigation }) {
 
         }
     }
+    if(isLoading) return <WaveLoading size={10} color="#0000ff" style={{ marginTop: 20 }} />
 
 
     return (
-        <View style={styles.main}>
-            <View style={styles.container}>
-                <Text style={styles.title} >Sign up</Text>
-                <InputForm
-                    label="Name"
-                    value={name}
-                    onChangeText={(t) => setName(t)}
-                    isSecure={false}
-                    error={nameError}
-                />
-                <InputForm
-                    label="LastName"
-                    value={lastName}
-                    onChangeText={(t) => setLastName(t)}
-                    isSecure={false}
-                    error={lastNameError}
-                />
-                <Pressable onPress={showDatePicker}>
-                    <Text>Birthday</Text>
-                    <Text>{formattedBirthday}</Text>
-                    {birthdayError?<Text>{birthdayError}</Text>:<></>}
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+            <Text style={styles.title} >Sign up</Text>
+            <InputForm
+                label="Name"
+                value={name}
+                onChangeText={(t) => setName(t)}
+                isSecure={false}
+                error={nameError}
+            />
+            <InputForm
+                label="LastName"
+                value={lastName}
+                onChangeText={(t) => setLastName(t)}
+                isSecure={false}
+                error={lastNameError}
+            />
+            <View style={styles.continerDate}>
+                <Text style={styles.titleDate}>Birthday: </Text>
+                <Pressable style={styles.buttonDate} onPress={showDatePicker}>
+                    <Text style={styles.textDate}>{formattedBirthday}</Text>
+                    {birthdayError ? <View style={styles.errorContainer}><Text style={styles.error}>{birthdayError}</Text></View> : null}
                 </Pressable>
-                <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
-                />
-                <InputForm
-                    label="Email"
-                    value={email}
-                    onChangeText={(t) => setEmail(t)}
-                    isSecure={false}
-                    error={emailError}
-                />
-                <InputForm
-                    label="Password"
-                    value={password}
-                    onChangeText={(t) => setPassword(t)}
-                    isSecure={true}
-                    error={passwordError}
-                />
-                <InputForm
-                    label="Confirm password"
-                    value={confirmPassword}
-                    onChangeText={(t) => setConfirmPassword(t)}
-                    isSecure={true}
-                    error={confirmPasswordError}
+            </View>
+            <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+            />
+            <InputForm
+                label="Email"
+                value={email}
+                onChangeText={(t) => setEmail(t)}
+                isSecure={false}
+                error={emailError}
+            />
+            <InputForm
+                label="Password"
+                value={password}
+                onChangeText={(t) => setPassword(t)}
+                isSecure={true}
+                error={passwordError}
+            />
+            <InputForm
+                label="Confirm password"
+                value={confirmPassword}
+                onChangeText={(t) => setConfirmPassword(t)}
+                isSecure={true}
+                error={confirmPasswordError}
 
-                />
-                <SubmitButton 
+            />
+            <SubmitButton
                 text
-                title="Send" 
+                title="Send"
                 actionButton={onSubmit}
-                />
-                <Text style={styles.sub}>Alredy have an account?</Text>
-                <SubmitButton 
+                buttonStyle={styles.buttonRegister}
+            />
+            <SubmitButton
                 text
                 actionButton={() => navigation.navigate("Login")}
-                title={"Login"}
-                />
-            </View>
-        </View>
+                title={"Ya tienes una cuenta? Login"}
+                textStyle={styles.textLogin}
+                buttonStyle={styles.buttonLogin}
+            />
+        </ScrollView>
     )
 }
 
 
 const styles = StyleSheet.create({
+    container: {
+        padding: 25
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        textAlign: 'center'
+    },
+    errorContainer: {
+        alignItems: 'center',
+        position: 'relative'
+    },
+    error: {
+        marginTop: 16,
+        color: 'red',
+        fontSize: 12,
+        position: 'absolute'
+    },
+    continerDate: {
+        marginTop: 14,
+        marginBottom: 14
+    },
+    buttonDate:{
+        backgroundColor:'#f2f2f2',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        fontSize: 16,
+    },
+    titleDate:{
+        marginBottom: 5,
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#333',
+        textAlign:'center' 
+    },
+    buttonRegister: {
+        backgroundColor: '#808B96'
+    },
+    buttonLogin: {
+        padding: 0,
+        borderRadius: 0,
+        marginBottom:90
+    },
+    textLogin: {
+        color: '#2037C6',
+    }
 })

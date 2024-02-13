@@ -1,8 +1,10 @@
+import React from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 
-export default function Loading({ style }) {
+export default function Loading({ circular, style }) {
+    const containerStyle = circular ? styles.circularContainer : styles.container;
     return (
-        <View style={[styles.container, style]}>
+        <View style={[containerStyle, style]}>
             <ActivityIndicator size="large" color="#0000ff" />
         </View>
     );
@@ -11,8 +13,16 @@ export default function Loading({ style }) {
 const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(255, 255, 255, 1)',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 1)',
+    },
+    circularContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        width: 200,
+        height: 200,
+        backgroundColor: 'rgba(255, 255, 255, 1)',
     },
 });

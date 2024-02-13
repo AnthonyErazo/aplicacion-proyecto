@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import ProductList from '../components/ProductList';
-import Swiper from 'react-native-swiper';
-import products from '../data/products.json';
 import { useGetProductByDescountQuery, useGetProductByRatingQuery, useGetProductByStockQuery, useGetProductsQuery, useGetSomeCategoriesQuery } from '../app/services/shopServices';
 import Loading from '../components/Loading';
+import SearchBar from '../components/SearchBar';
+import CarouselCategory from '../components/CarrouselCategory';
+import WaveLoading from '../components/WaveLoading';
+import CarouselProducts from '../components/CarrouselProducts';
 
 export default function HomeScreen({ navigation }) {
     const { data: dataRating, isSuccess: succesRating, isLoading: loadingRating } = useGetProductByRatingQuery()
@@ -46,64 +47,69 @@ export default function HomeScreen({ navigation }) {
         }
     }, [dataSomeCategories, succesSomeCategories]);
 
+    if(loadingRating||loadingStock||loadingDescount||loadingSomeCategories)return <WaveLoading size={10} color="#0000ff" style={{ marginTop: 20 }} />
+
+    const item=[{
+        "id": 0,
+        "title": "Crystal chandelier maria theresa for 12 light",
+        "description": "Crystal chandelier maria theresa for 12 light",
+        "price": 47,
+        "discountPercentage": 16,
+        "rating": 4.74,
+        "stock": 133,
+        "brand": "YIOSI",
+        "category": "lighting",
+        "thumbnail": "https://i.dummyjson.com/data/products/100/thumbnail.jpg",
+        "images": [
+            "https://i.dummyjson.com/data/products/100/1.jpg",
+            "https://i.dummyjson.com/data/products/100/2.jpg",
+            "https://i.dummyjson.com/data/products/100/3.jpg",
+            "https://i.dummyjson.com/data/products/100/thumbnail.jpg"
+        ]
+    },
+    {
+        "id": 1,
+        "title": "iPhone 9",
+        "description": "An apple mobile which is nothing like apple",
+        "price": 549,
+        "discountPercentage": 12.96,
+        "rating": 4.69,
+        "stock": 94,
+        "brand": "Apple",
+        "category": "smartphones",
+        "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+        "images": [
+            "https://i.dummyjson.com/data/products/1/1.jpg",
+            "https://i.dummyjson.com/data/products/1/2.jpg",
+            "https://i.dummyjson.com/data/products/1/3.jpg",
+            "https://i.dummyjson.com/data/products/1/4.jpg",
+            "https://i.dummyjson.com/data/products/1/thumbnail.jpg"
+        ]
+    }]
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView
                 showsVerticalScrollIndicator={false}
             >
-                
-                <Text style={styles.title}>Productos Destacados</Text>
-
+                <SearchBar 
+                onSearch={()=>navigation.navigate('Search')}
+                actionInput={()=>navigation.navigate('Search')}
+                />
                 <Text style={styles.sectionTitle}>Productos más Populares</Text>
-                {loadingRating ? <Loading /> : <Swiper
-                    style={styles.swiperContainer}
-                    showsPagination={false}
-                    contentContainerStyle={styles.swiperContentContainer}
-                    loop
-                    autoplay
-                >
-                    {itemRating.map((item) => (
-                        <ProductList key={item.id} product={item} navigation={navigation} displayRating />
-                    ))}
-                </Swiper>}
+                {loadingRating ? <Loading /> : <CarouselProducts display={"rating"} navigation={navigation} products={itemRating}/>}
 
                 <Text style={styles.sectionTitle}>¡Corre que se Acaban!</Text>
-                {loadingStock ? <Loading /> : <Swiper
-                    style={styles.swiperContainer}
-                    showsPagination={false}
-                    contentContainerStyle={styles.swiperContentContainer}
-                    loop
-                    autoplay
-                >
-                    {itemStock.map((item) => (
-                        <ProductList key={item.id} product={item} navigation={navigation} displayDiscount />
-                    ))}
-                </Swiper>}
+                {loadingStock ? <Loading /> : <CarouselProducts display={"stock"} navigation={navigation} products={itemStock}/>}
 
                 <Text style={styles.sectionTitle}>Ofertas Especiales</Text>
-                {loadingDescount ? <Loading /> : <Swiper
-                    style={styles.swiperContainer}
-                    showsPagination={false}
-                    contentContainerStyle={styles.swiperContentContainer}
-                    loop
-                    autoplay
-                >
-                    {itemDescount.map((item) => (
-                        <ProductList key={item.id} product={item} navigation={navigation} displayDiscount />
-                    ))}
-                </Swiper>}
+                {loadingDescount ? <Loading /> : <CarouselProducts display={"discount"} navigation={navigation} products={itemDescount}/>}
 
                 <Text style={styles.sectionTitle}>Explorar Categorías</Text>
 
-                {loadingSomeCategories ? <Loading /> : <Swiper
-                    style={styles.swiperContainer}
-                    showsPagination={false}
-                    contentContainerStyle={styles.swiperContentContainer}
-                >
-                    {itemDescount.map((item) => (
-                        <ProductList key={item.id} product={item} navigation={navigation} displayDiscount />
-                    ))}
-                </Swiper>}
+                {loadingSomeCategories ? <Loading /> : <CarouselCategory 
+                category={someCategories} 
+                navigation={navigation}
+                />}
 
             </ScrollView>
         </SafeAreaView>

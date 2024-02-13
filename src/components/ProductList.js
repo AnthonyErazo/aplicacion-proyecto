@@ -7,7 +7,7 @@ import { Dimensions } from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
 
-export default function ProductList({ product, navigation, displayRating, displayDiscount }) {
+export default function ProductList({ product, navigation, display }) {
 
   const handlePress = () => {
     navigation.navigate('ProductDetail', { productId:product.id });
@@ -20,10 +20,10 @@ export default function ProductList({ product, navigation, displayRating, displa
         <View style={styles.productDetails}>
           <Text style={styles.productTitle}>{product.title}</Text>
           <Text style={styles.discountedPrice}>${calculateDiscountedPrice(product.price, product.discountPercentage)}</Text>
-          {(!displayRating && !displayDiscount) && (
+          {(!(display=='rating') && !(display=='discount') && !(display=='stock')) && (
             <Text style={styles.productDescription}>{product.description}</Text>
           )}
-          {displayRating && (
+          {(display=='rating') && (
             <View style={styles.ratingContainer}>
               <Text style={styles.ratingTitle}>
                 Rating: {[...Array(Math.floor(product.rating))].map((_, index) => (
@@ -32,10 +32,15 @@ export default function ProductList({ product, navigation, displayRating, displa
               </Text>
             </View>
           )}
-          {displayDiscount && (
+          {(display=='discount') && (
             <View style={styles.discountContainer}>
               <Text style={styles.regularPrice}>${product.price}</Text>
               <Text style={styles.discountPercentage}>{product.discountPercentage}% Descuento</Text>
+            </View>
+          )}
+          {(display=='stock') && (
+            <View style={styles.discountContainer}>
+              <Text style={styles.stock}>Stock: {product.stock}</Text>
             </View>
           )}
         </View>
@@ -112,6 +117,10 @@ const styles = StyleSheet.create({
     color: '#e74c3c',
     marginTop: 3,
   },
+  stock:{
+    fontSize: 18,
+    color: 'gray',
+  }
 });
 
 function calculateDiscountedPrice(regularPrice, discountPercentage) {

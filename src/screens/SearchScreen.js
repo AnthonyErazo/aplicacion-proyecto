@@ -1,20 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, FlatList } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
 import SearchBar from '../components/SearchBar';
 import ProductList from '../components/ProductList';
-import { useSelector, useDispatch } from 'react-redux'
-import { setProductSearch } from '../features/shop/shopSlice';
+import { useGetCategoriesQuery, useGetProductsQuery } from '../app/services/shopServices';
+import WaveLoading from '../components/WaveLoading';
+import CarouselCategory from '../components/CarrouselCategory';
 
 export default function SearchScreen({ navigation }) {
-    const dispatch = useDispatch()
+    const { data: dataProducts, isSuccess: successProducts, isLoading: loadingProducts } = useGetProductsQuery();
+    const { data: dataCategories, isSuccess: successCategories, isLoading: loadingCategories } = useGetCategoriesQuery();
+
     const [searchText, setSearchText] = useState('');
     const [textEnter, setTextEnter] = useState('');
-    const productSearch = useSelector(state => state.shop.value.productSearch)
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+
+    const [productsSearch, setProductsSearch] = useState([]);
+    const [categoriesSearch, setCategoriesSearch] = useState([]);
+
+    useEffect(() => {
+        if (successProducts && successCategories) {
+            setProducts(dataProducts)
+            setCategories(dataCategories)
+        }
+    }, [dataProducts, dataCategories])
+
     const handleSearch = () => {
-        dispatch(setProductSearch(searchText))
         setTextEnter(searchText)
+        const searchCat = categories.filter(categories =>
+            categories.name.replace(/-/, ' ').toLowerCase().includes(searchText.toLowerCase())
+        )
+        const searchPro = products.filter(product =>
+            product.title.toLowerCase().includes(searchText.toLowerCase())
+        )
+        setCategoriesSearch(searchCat)
+        setProductsSearch(searchPro)
     }
+    if (loadingProducts || loadingCategories) return <WaveLoading size={10} color="#0000ff" style={{ marginTop: 20 }} />
 
     return (
         <View>
@@ -26,23 +48,38 @@ export default function SearchScreen({ navigation }) {
                         onSearch={handleSearch} />
                 </View>
             </View>
-            {((productSearch.length > 0) || (textEnter === '')) ? (
-                <></>
-            ) : (
+            {((productsSearch.length == 0) && (categoriesSearch.length == 0) && (textEnter !== '')) ? (
                 <View style={styles.noProductContainer}>
                     <Text style={styles.noProductText}>
                         No se encontraron resultados para "{textEnter}"
                     </Text>
                 </View>
+            ) : (
+                <></>
             )}
-            <FlatList
-                data={productSearch}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <ProductList
-                    product={item}
-                    navigation={navigation}
-                />}
-            />
+            {categoriesSearch.length != 0 ?
+                <View>
+                    <Text>Categorias: </Text>
+                    <CarouselCategory
+                        category={categoriesSearch}
+                        navigation={navigation}
+                    />
+                </View> :
+                null}
+            {productsSearch.length != 0 ?
+                <View>
+                    <Text>Productos: </Text>
+                    <FlatList
+                        data={productsSearch}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => <ProductList
+                            product={item}
+                            navigation={navigation}
+                        />}
+                    />
+                </View> :
+                null}
+
         </View>
     );
 };

@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { googleApi } from '../firebase/googleApi';
 import { useSelector } from 'react-redux';
 import { usePostUserLocationMutation } from '../app/services/userService';
 import SubmitButton from '../components/SubmitButton';
-import Loading from '../components/Loading';
+import WaveLoading from '../components/WaveLoading';
 
 export default function LocationSelectorScreen({ navigation, route }) {
-  const { latitude, longitude, address:userAddress } = route.params;
+  const { latitude, longitude, address: userAddress } = route.params;
   const localId = useSelector((state) => state.auth.value.localId);
 
   const [location, setLocation] = useState({ latitude, longitude });
   const [address, setAddress] = useState(userAddress);
   const [triggerPostUserLocation] = usePostUserLocationMutation();
-  const [loading,setLoading]=useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -28,7 +28,7 @@ export default function LocationSelectorScreen({ navigation, route }) {
         }
       } catch (error) {
         console.log(error.message);
-      }finally{
+      } finally {
         setLoading(false)
       }
     })();
@@ -36,9 +36,9 @@ export default function LocationSelectorScreen({ navigation, route }) {
 
   const handleMapPress = (event) => {
     const { latitude: latitudeEvent, longitude: longitudeEvent } = event.nativeEvent.coordinate;
-    setLocation({ latitude:latitudeEvent, longitude:longitudeEvent });
+    setLocation({ latitude: latitudeEvent, longitude: longitudeEvent });
   };
-  
+
 
   const onConfirmAddress = async () => {
     try {
@@ -53,7 +53,7 @@ export default function LocationSelectorScreen({ navigation, route }) {
       console.log(error.message);
     }
   };
-  if(loading) return <Loading />
+  if (loading) return <WaveLoading size={10} color="#0000ff" style={{ marginTop: 20 }} />
 
   return (
     <View style={styles.container}>
@@ -70,16 +70,20 @@ export default function LocationSelectorScreen({ navigation, route }) {
       >
         <Marker coordinate={location} />
       </MapView>
-      <SubmitButton
-      text
-      title={"Cancelar"} 
-      actionButton={()=>navigation.goBack()}
-      />
-      <SubmitButton
-      text
-      title={"Confirmar Ubicación"} 
-      actionButton={onConfirmAddress}
-      />
+      <View style={styles.buttonsContainer}>
+        <SubmitButton
+          text
+          title={"Cancelar"}
+          buttonStyle={styles.buttonAction}
+          actionButton={() => navigation.goBack()}
+        />
+        <SubmitButton
+          text
+          title={"Confirmar"}
+          buttonStyle={styles.buttonAction}
+          actionButton={onConfirmAddress}
+        />
+      </View>
     </View>
   );
 }
@@ -96,6 +100,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+    marginBottom:20,
+    textAlign:'center',
+    padding:12,
+    color:'#2856A2',
   },
   confirmButton: {
     position: 'absolute',
@@ -112,4 +120,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  buttonAction:{
+    backgroundColor:'#4C7BC8',
+    width:100
+  },
+  buttonsContainer: {
+    flexDirection:'row',
+    marginTop:10
+  }
 });

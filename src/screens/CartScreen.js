@@ -3,9 +3,9 @@ import { View, FlatList, Text, Pressable, StyleSheet, SafeAreaView, ScrollView }
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProbuctsCart, detletProbuctCartById } from '../features/cart/cartSlice';
 import { useGetUserLocationQuery, usePostOrderMutation } from '../app/services/userService';
-import Loading from '../components/Loading';
 import ModalAlert from '../components/ModalAlert';
 import SubmitButton from '../components/SubmitButton';
+import WaveLoading from '../components/WaveLoading';
 
 export default function CartScreen({ navigation }) {
 
@@ -101,7 +101,7 @@ export default function CartScreen({ navigation }) {
     }
 
     if (isLoading||isLoadingLocation||loading) return (
-        <Loading />
+        <WaveLoading size={10} color="#0000ff" style={{ marginTop: 20 }} />
     );
 
     return (

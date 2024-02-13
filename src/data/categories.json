@@ -1,22 +1,82 @@
 [
-    "smartphones",
-    "laptops",
-    "fragrances",
-    "skincare",
-    "groceries",
-    "home-decoration",
-    "furniture",
-    "tops",
-    "womens-dresses",
-    "womens-shoes",
-    "mens-shirts",
-    "mens-shoes",
-    "mens-watches",
-    "womens-watches",
-    "womens-bags",
-    "womens-jewellery",
-    "sunglasses",
-    "automotive",
-    "motorcycle",
-    "lighting"
-  ]
+  {
+    "name": "smartphones",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/smartphone-tablet-svgrepo-com.png?alt=media&token=eff00359-a8ee-4652-9b22-f3defea01b1a"
+  },
+  {
+    "name": "laptops",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/laptop1-svgrepo-com.png?alt=media&token=e0375cc5-e055-483f-bb15-d566a727ad7d"
+  },
+  {
+    "name": "fragrances",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/fragance-perfume-svgrepo-com.png?alt=media&token=402e6274-36d5-41f5-b276-05791cd48661"
+  },
+  {
+    "name": "skincare",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/cream-beauty-svgrepo-com.png?alt=media&token=98b696f1-2b2e-4a0c-be7c-07cd44e1199b"
+  },
+  {
+    "name": "groceries",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/groceries-svgrepo-com.png?alt=media&token=b2f7ea5c-c1cb-49bd-865e-4e2b31b147c8"
+  },
+  {
+    "name": "home-decoration",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/my-family-svgrepo-com.png?alt=media&token=e256926a-6d69-48bc-aab6-ee7011907f40"
+  },
+  {
+    "name": "furniture",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/furniture-house-living-12-svgrepo-com.png?alt=media&token=883f0247-d5ae-4682-b923-e6f8d2c97ce4"
+  },
+  {
+    "name": "tops",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/blue-tank-top-svgrepo-com.png?alt=media&token=34c3be95-c845-445b-80a3-57d854356af5"
+  },
+  {
+    "name": "womens-dresses",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/red-dress-svgrepo-com.png?alt=media&token=c2cf1fa9-f1f1-4ba7-99d6-23775b943142"
+  },
+  {
+    "name": "womens-shoes",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/red-high-heel-svgrepo-com.png?alt=media&token=f3778fad-75f2-433e-87ed-bf8364b4f975"
+  },
+  {
+    "name": "mens-shirts",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/gray-tshirt-svgrepo-com.png?alt=media&token=8624d615-e230-4d48-90e4-ebf6f2f73a1f"
+  },
+  {
+    "name": "mens-shoes",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/red-shoe-svgrepo-com.png?alt=media&token=0d6378d4-645e-438f-b61a-ff76c3bb9831"
+  },
+  {
+    "name": "mens-watches",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/watches-clock-svgrepo-com.png?alt=media&token=c460f5b0-de7f-4d6c-9063-85ca02226ab9"
+  },
+  {
+    "name": "womens-watches",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/smartwatch-svgrepo-com.png?alt=media&token=b1d4f34f-26cd-49f8-8c5b-abe4ca8566fa"
+  },
+  {
+    "name": "womens-bags",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/shopping-bag-svgrepo-com.png?alt=media&token=c8f44fc9-e0d1-4b50-a14d-1b422588de5b"
+  },
+  {
+    "name": "womens-jewellery",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/ring-pop-svgrepo-com.png?alt=media&token=fb89faa9-6322-42e8-90d6-a3e82629e0d7"
+  },
+  {
+    "name": "sunglasses",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/sunglasses-svgrepo-com.png?alt=media&token=03c12d0d-cf3f-488e-ba4c-d31fbea04405"
+  },
+  {
+    "name": "automotive",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/car-svgrepo-com.png?alt=media&token=59aed5e0-156a-4815-ab32-fcaed83fd3ae"
+  },
+  {
+    "name": "motorcycle",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/motorcycle-svgrepo-com.png?alt=media&token=173c0999-fe05-4de4-8416-c0414724602f"
+  },
+  {
+    "name": "lighting",
+    "iconUrl": "https://firebasestorage.googleapis.com/v0/b/reactnativeapp-d0505.appspot.com/o/lamp-svgrepo-com.png?alt=media&token=b313ec0d-cfb2-490c-93a6-3dcf6f6ce50b"
+  }
+]

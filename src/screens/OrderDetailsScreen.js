@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { View, FlatList, Text, Pressable, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, FlatList, Text, StyleSheet } from 'react-native';
 import { useGetOrdersQuery } from '../app/services/userService';
 import { useSelector } from 'react-redux';
-import Loading from '../components/Loading';
+import WaveLoading from '../components/WaveLoading';
 
 export default function OrdersDetailsScreen({ navigation,route }) {
 
@@ -18,7 +18,7 @@ export default function OrdersDetailsScreen({ navigation,route }) {
         }
     }, [data, idOrder]);
 
-    if(isLoading) return <Loading />
+    if(isLoading) return <WaveLoading size={10} color="#0000ff" style={{ marginTop: 20 }} />
 
     return (
         <View>

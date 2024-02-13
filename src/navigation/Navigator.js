@@ -53,7 +53,7 @@ const MainTabNavigator = () => {
                         iconName = 'home';
                     } else if (route.name === 'Account') {
                         iconName = 'account';
-                    } else if (route.name === 'CategoriesStack') {
+                    } else if (route.name === 'Categories') {
                         iconName = 'menu';
                     } else if (route.name === 'Cart') {
                         iconName = 'cart';
@@ -77,7 +77,7 @@ const MainTabNavigator = () => {
                 options={{ tabBarLabel: 'Home' }}
             />
             <Tab.Screen
-                name="CategoriesStack"
+                name="Categories"
                 component={CategoriesStack}
                 options={{ tabBarLabel: 'Categories' }}
             />
@@ -111,6 +111,7 @@ export default function Navigator() {
                 <Stack.Screen name="MainTabs" component={MainTabNavigator} />
                 <Stack.Screen name="Authentication" component={AuthStack} />
                 <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+                <Stack.Screen name="Search" component={SearchScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

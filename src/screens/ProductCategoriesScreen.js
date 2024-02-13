@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, Image, Pressable, FlatList } from 'react-native';
 import { useGetProductsByCategoriesQuery } from '../app/services/shopServices';
-import Loading from '../components/Loading';
 import SubmitButton from '../components/SubmitButton';
 import { useEffect, useState } from 'react';
+import WaveLoading from '../components/WaveLoading';
 
 export default function ProductCategoriesScreen({ navigation, route }) {
     const { item } = route.params
@@ -17,7 +17,7 @@ export default function ProductCategoriesScreen({ navigation, route }) {
     }, [isSuccess, data])
 
 
-    if (isLoading || !data) return <Loading />
+    if (isLoading || !data) return <WaveLoading size={10} color="#0000ff" style={{ marginTop: 20 }} />
     return (
         <>
             <SubmitButton

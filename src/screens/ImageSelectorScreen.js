@@ -5,6 +5,7 @@ import { usePostProfileImageMutation, useGetProfileImageQuery } from '../app/ser
 import { useSelector } from 'react-redux'
 import SubmitButton from '../components/SubmitButton'
 import Loading from '../components/Loading'
+import WaveLoading from '../components/WaveLoading'
 
 
 export default function ImageSelectorScreen({ navigation }) {
@@ -61,54 +62,97 @@ export default function ImageSelectorScreen({ navigation }) {
         navigation.goBack()
     }
 
-    if (isLoading) return <Loading />
+    if (isLoading) return <WaveLoading size={10} color="#0000ff" style={{ marginTop: 20 }} />
 
     return (
         <View style={styles.container}>
-            <View>
+            <View style={styles.imageContainer}>
                 <Image
                     source={image ? { uri: image } : require("../../assets/user.png")}
                     style={styles.image}
                     resizeMode='cover'
                     onLoad={() => setIsImageLoaded(true)}
                 />
-                {!isImageLoaded && <Loading style={styles.loading} />}
+                {!isImageLoaded && <View style={StyleSheet.absoluteFill}>
+                    <Loading circular />
+                </View>}
             </View>
             <SubmitButton
                 text
-                title={"Cancelar"}
-                actionButton={() => navigation.goBack()}
-            />
-            <SubmitButton
-                text
                 title={"Tomar foto"}
+                buttonStyle={styles.buttonChange}
+                textStyle={styles.textButtonChange}
                 actionButton={pickImageFromCamera}
             />
             <SubmitButton
                 text
-                title={"Seleccionar de la galería"}
+                title={"Galería"}
+                buttonStyle={styles.buttonChange}
+                textStyle={styles.textButtonChange}
                 actionButton={pickImageFromGallery}
             />
-            <SubmitButton
-                text
-                title={"Confirm photo"}
-                actionButton={confirmImage}
-            />
+            <View style={styles.buttonsContainer}>
+                <SubmitButton
+                    text
+                    title={"Cancelar"}
+                    buttonStyle={styles.buttonAction}
+                    actionButton={() => navigation.goBack()}
+                />
+                <SubmitButton
+                    text
+                    title={"Confirmar"}
+                    buttonStyle={styles.buttonAction}
+                    actionButton={confirmImage}
+                />
+            </View>
         </View>
     )
 }
 
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+    },
     image: {
         width: 200,
         height: 200,
     },
     loading: {
         position: 'absolute',
-        width:'100%',
-        height:'100%',
-        zIndex:100,
+        width: '100%',
+        height: '100%',
+        zIndex: 100,
         backgroundColor: 'rgba(255, 255, 255, 1)',
     },
+    imageContainer: {
+        position: 'relative',
+        marginBottom: 20,
+        alignItems: 'center',
+    },
+    image: {
+        width: 200,
+        height: 200,
+        borderRadius: 100,
+    },
+    buttonChange: {
+        borderColor: '#2856A2',
+        borderWidth: 2,
+        width: 200
+    },
+    textButtonChange: {
+        color: '#4C7BC8',
+    },
+    buttonsContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        marginTop: 10
+    },
+    buttonAction: {
+        backgroundColor: '#4C7BC8',
+        width: 100
+    }
 });

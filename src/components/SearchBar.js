@@ -3,7 +3,7 @@ import { AntDesign } from "@expo/vector-icons"
 import { colors } from '../global/color'
 import SubmitButton from './SubmitButton';
 
-export default function SearchBar({ navigation, searchText, setSearchText,onSearch }) {
+export default function SearchBar({ navigation, searchText, setSearchText,onSearch,actionInput }) {
 
     return (
         <View style={styles.container}>
@@ -14,6 +14,7 @@ export default function SearchBar({ navigation, searchText, setSearchText,onSear
                     value={searchText}
                     onChangeText={(text) => setSearchText(text)}
                     onSubmitEditing={onSearch}
+                    onFocus={actionInput}
                 />
                 <SubmitButton
                 nameIcon={'search1'}

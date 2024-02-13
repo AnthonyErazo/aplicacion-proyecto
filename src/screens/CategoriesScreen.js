@@ -1,34 +1,34 @@
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, FlatList, Pressable } from 'react-native';
 import { useGetCategoriesQuery } from '../app/services/shopServices';
-import Loading from '../components/Loading';
-import SubmitButton from '../components/SubmitButton';
+import WaveLoading from '../components/WaveLoading';
+
+const { width } = Dimensions.get('window');
+const itemWidth = (width - 40) / 3;
 
 export default function CategoriesScreen({ navigation }) {
     const { data: categories, isLoading } = useGetCategoriesQuery()
     const formatCategory = (category) => {
         return category.replace(/-/, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
     };
-    if (isLoading) return <Loading />
+    if (isLoading) return <WaveLoading size={10} color="#0000ff" style={{ marginTop: 20 }} />
     return (
         <View style={styles.modalContainer}>
             <FlatList
                 data={categories}
-                keyExtractor={(item) => item}
-                renderItem={({ item }) => (
-                    <SubmitButton   
-                        actionButton={() => {
-                            navigation.navigate('ProductCategories', { item })
-                        }}
-                        text
-                        title={formatCategory(item)}
-                        containerStyle={styles.buttonContainer}
-                        buttonStyle={styles.button}
-                        textStyle={styles.buttonText}
-                    />
-                )}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) =>
+                    <View >
+                        <Pressable style={styles.categoryContainer} onPress={() => {
+                            navigation.navigate('ProductCategories', { item: item.name })
+                        }}>
+                            <Image source={{ uri: item.iconUrl }} style={styles.image} />
+                            <Text style={styles.text}>{formatCategory(item.name)}</Text>
+                        </Pressable>
+                    </View>}
+                contentContainerStyle={styles.container}
+                numColumns={3}
                 showsVerticalScrollIndicator={false}
             />
-            
         </View>
     );
 };
@@ -38,23 +38,31 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor:'green'
     },
-    flatList: {
-        flex: 1,
-        width: '100%',
+    container: {
+        alignItems: 'flex-start',
+        paddingHorizontal: 10,
+        paddingTop: 20,
     },
-    buttonContainer:{
-        backgroundColor:'red',
-        marginBottom:10,
-        marginTop:10,
-        width:300
+    categoryContainer: {
+        width: itemWidth,
+        alignItems: 'center',
+        marginBottom: 15,
+        marginLeft:3,
+        marginRight:3,
+        backgroundColor:'#F8F8F8',
+        borderRadius:15,
+        borderColor:'#1111',
+        borderWidth: 2,
     },
-    button:{
-
+    image: {
+        width: 50,
+        height: 50,
+        marginBottom: 5,
+        marginTop:5,
     },
-    buttonText:{
-        textAlign:'center',
-        fontSize:18
-    }
+    text: {
+        fontSize: 10,
+        marginBottom:5
+    },
 });
