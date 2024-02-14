@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { View, Text, StyleSheet, Pressable } from 'react-native'
-import InputForm from '../components/InputForm'
+import InputForm from '../../components/InputForm'
 import { useSelector } from 'react-redux'
-import { editProfileSchema } from '../validations/editProfileSchema'
-import { useGetProfileDataQuery, usePostProfileDataMutation } from '../app/services/userService'
-import Loading from '../components/Loading';
-import SubmitButton from '../components/SubmitButton';
-import WaveLoading from '../components/WaveLoading';
+import { editProfileSchema } from '../../validations/editProfileSchema'
+import { useGetProfileDataQuery, usePostProfileDataMutation } from '../../app/services/userService'
+import Loading from '../../components/Loading';
+import SubmitButton from '../../components/SubmitButton';
+import WaveLoading from '../../components/WaveLoading';
 
 export default function EditProfileScreen({ navigation }) {
     const localId = useSelector(state => state.auth.value.localId)

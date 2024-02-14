@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, FlatList } from 'react-native';
-import SearchBar from '../components/SearchBar';
-import ProductList from '../components/ProductList';
-import { useGetCategoriesQuery, useGetProductsQuery } from '../app/services/shopServices';
-import WaveLoading from '../components/WaveLoading';
-import CarouselCategory from '../components/CarrouselCategory';
+import { View, StyleSheet, Text, FlatList,ScrollView } from 'react-native';
+import SearchBar from '../../components/SearchBar';
+import ProductList from '../../components/ProductList';
+import { useGetCategoriesQuery, useGetProductsQuery } from '../../app/services/shopServices';
+import WaveLoading from '../../components/WaveLoading';
+import CarouselCategory from '../../components/CarrouselCategory';
+import CloseButton from '../../components/CloseButton';
 
 export default function SearchScreen({ navigation }) {
     const { data: dataProducts, isSuccess: successProducts, isLoading: loadingProducts } = useGetProductsQuery();
@@ -40,6 +41,7 @@ export default function SearchScreen({ navigation }) {
 
     return (
         <View>
+            <CloseButton />
             <View style={styles.inputContainer}>
                 <View style={styles.searchBarContainer}>
                     <SearchBar
@@ -59,7 +61,7 @@ export default function SearchScreen({ navigation }) {
             )}
             {categoriesSearch.length != 0 ?
                 <View>
-                    <Text>Categorias: </Text>
+                    <Text style={styles.sectionTitle}>Categorias: </Text>
                     <CarouselCategory
                         category={categoriesSearch}
                         navigation={navigation}
@@ -68,7 +70,7 @@ export default function SearchScreen({ navigation }) {
                 null}
             {productsSearch.length != 0 ?
                 <View>
-                    <Text>Productos: </Text>
+                    <Text style={styles.sectionTitle}>Productos: </Text>
                     <FlatList
                         data={productsSearch}
                         keyExtractor={(item) => item.id.toString()}
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 10,
-        paddingTop: 20,
+        paddingTop: 10,
     },
     backContainer: {
         marginRight: 10,
@@ -108,5 +110,11 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'red',
         fontWeight: 'bold',
+    },
+    sectionTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginLeft: 10,
+        marginBottom: 10,
     },
 });

@@ -7,8 +7,8 @@ export default function SubmitButton ({title, actionButton, text, icon, nameIcon
   return (
     <View style={[styles.buttonContainer, containerStyle]}>
       <Pressable style={[styles.button, buttonStyle]} onPress={actionButton}>
-        {text ? <Text style={[styles.text, textStyle]}>{title}</Text> : <></>}
         {icon ? <AntDesign name={nameIcon} size={sizeIcon} color={colorIcon} style={[styles.icon, iconStyle]} /> : <></>}
+        {text ? <Text style={[styles.text, textStyle]}>{title}</Text> : <></>}
       </Pressable>
     </View>
   )

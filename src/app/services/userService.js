@@ -4,7 +4,7 @@ import { base_url } from '../../firebase/db'
 export const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: fetchBaseQuery({ baseUrl: base_url }),
-    tagTypes: ["image", "dataProfile","orders"],
+    tagTypes: ["image", "dataProfile","orders","location"],
     endpoints: (builder) => ({
         GetUserById: builder.query({
             query: (localId) => `users/${localId}.json`,

@@ -1,9 +1,6 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { setProductSelected } from '../features/shop/shopSlice';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, Image, StyleSheet, Pressable,Dimensions } from 'react-native';
 import {AntDesign} from '@expo/vector-icons'
-import { Dimensions } from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -12,17 +9,38 @@ export default function ProductList({ product, navigation, display }) {
   const handlePress = () => {
     navigation.navigate('ProductDetail', { productId:product.id });
   };
+  const [descriptionLines, setDescriptionLines] = useState(4);
+  const descriptionRef = useRef(null);
+
+  useEffect(() => {
+    const lineHeight = 20; 
+    const maxHeight = lineHeight * descriptionLines;
+
+    if (descriptionRef.current) {
+      descriptionRef.current.measure((x, y, width, height) => {
+        if (height > maxHeight) {
+          setDescriptionLines(Math.floor(maxHeight / lineHeight));
+        }
+      });
+    }
+  }, [product.description, descriptionLines]);
 
   return (
-    <Pressable onPress={handlePress}>
-      <View style={styles.productItem}>
+    <View>
+      <Pressable onPress={handlePress} style={styles.productItem}>
         <Image style={styles.thumbnail} source={{ uri: product.thumbnail }} />
         <View style={styles.productDetails}>
           <Text style={styles.productTitle}>{product.title}</Text>
-          <Text style={styles.discountedPrice}>${calculateDiscountedPrice(product.price, product.discountPercentage)}</Text>
           {(!(display=='rating') && !(display=='discount') && !(display=='stock')) && (
-            <Text style={styles.productDescription}>{product.description}</Text>
+            <Text
+            style={[styles.productDescription, { height: descriptionLines * 20 }]}
+            numberOfLines={descriptionLines}
+            ref={descriptionRef}
+          >
+            {product.description}
+          </Text>
           )}
+          <Text style={styles.discountedPrice}>${calculateDiscountedPrice(product.price, product.discountPercentage)}</Text>
           {(display=='rating') && (
             <View style={styles.ratingContainer}>
               <Text style={styles.ratingTitle}>
@@ -44,21 +62,24 @@ export default function ProductList({ product, navigation, display }) {
             </View>
           )}
         </View>
-      </View>
-    </Pressable>
+      </Pressable>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   productItem: {
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: 10,
     borderWidth: 1,
     borderColor: 'lightgray',
-    padding: 10,
+    padding: 12,
     borderRadius: 10,
     backgroundColor: '#fff',
     height: 160,
+    alignItems:'center',
+    marginLeft:10,
+    marginRight:10
   },
   thumbnail: {
     width: windowWidth * 0.2,
@@ -70,20 +91,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   productTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  productDescription: {
-    fontSize: 14,
-    color: 'gray',
-    marginBottom: 5,
-  },
-  productPrice: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#e44d26',
-    marginBottom: 5,
+    marginBottom: 2,
+  },
+  productDescription: {
+    fontSize: 12,
+    color: 'gray',
   },
   ratingContainer: {
     flexDirection: 'row',

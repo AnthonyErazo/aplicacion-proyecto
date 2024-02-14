@@ -1,13 +1,14 @@
 import * as Location from 'expo-location';
 import { StyleSheet, View, Text, Image } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearUser } from '../features/auth/authSlice'
-import { useGetProfileDataQuery, useGetProfileImageQuery, useGetUserLocationQuery } from '../app/services/userService'
+import { clearUser } from '../../features/auth/authSlice'
+import { useGetProfileDataQuery, useGetProfileImageQuery, useGetUserLocationQuery } from '../../app/services/userService'
 import { useEffect, useState } from 'react'
-import { deleteAllSession } from '../database'
-import Loading from '../components/Loading'
-import SubmitButton from '../components/SubmitButton'
-import WaveLoading from '../components/WaveLoading';
+import { deleteAllSession } from '../../database'
+import Loading from '../../components/Loading'
+import SubmitButton from '../../components/SubmitButton'
+import WaveLoading from '../../components/WaveLoading';
+import { buton } from '../../global/buton';
 
 export default function ProfileScreen({ navigation }) {
   const dispatch = useDispatch()
@@ -73,7 +74,7 @@ export default function ProfileScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={dataImage ? { uri: dataImage.image } : require("../../assets/user.png")}
+          source={dataImage ? { uri: dataImage.image } : require("../../../assets/user.png")}
           style={styles.image}
           resizeMode='cover'
           onLoad={() => setIsImageLoaded(true)}
@@ -163,9 +164,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   buttonChange:{
-    borderColor: '#2856A2',
-    borderWidth: 2,
-    width:200
+    ...buton,
   },
   textButtonChange:{
     color:'#4C7BC8',

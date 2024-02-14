@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { googleApi } from '../firebase/googleApi';
+import { googleApi } from '../../firebase/googleApi';
 import { useSelector } from 'react-redux';
-import { usePostUserLocationMutation } from '../app/services/userService';
-import SubmitButton from '../components/SubmitButton';
-import WaveLoading from '../components/WaveLoading';
+import { usePostUserLocationMutation } from '../../app/services/userService';
+import SubmitButton from '../../components/SubmitButton';
+import WaveLoading from '../../components/WaveLoading';
 
 export default function LocationSelectorScreen({ navigation, route }) {
   const { latitude, longitude, address: userAddress } = route.params;

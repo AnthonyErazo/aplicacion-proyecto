@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import HomeScreen from '../screens/HomeScreen'
-import SearchScreen from '../screens/SearchScreen'
+import HomeScreen from '../screens/home/HomeScreen'
+import SearchScreen from '../screens/home/SearchScreen'
 import ProductDetailScreen from '../screens/ProductDetailScreen'
 import Header from '../components/Header'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -14,8 +14,6 @@ import { setUser } from '../features/auth/authSlice'
 import { fechSession } from '../database'
 import { useEffect } from 'react'
 import CartStack from './CartStack'
-import { useGetProductsQuery } from '../app/services/shopServices'
-import { setAllProducts } from '../features/shop/shopSlice'
 
 
 const Stack = createNativeStackNavigator();
@@ -109,7 +107,6 @@ export default function Navigator() {
                 }
             >
                 <Stack.Screen name="MainTabs" component={MainTabNavigator} />
-                <Stack.Screen name="Authentication" component={AuthStack} />
                 <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
                 <Stack.Screen name="Search" component={SearchScreen} />
             </Stack.Navigator>

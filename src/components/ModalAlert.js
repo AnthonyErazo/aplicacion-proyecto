@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Modal, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Modal, StyleSheet } from 'react-native';
 import SubmitButton from './SubmitButton';
 
 export default function ModalAlert  ({ visible, closeModal, confirmAction, cancelAction, modalText })  {
@@ -18,11 +18,13 @@ export default function ModalAlert  ({ visible, closeModal, confirmAction, cance
                         text
                         title={"Cancelar"}
                         actionButton={cancelAction}
+                        buttonStyle={styles.buttonCancel}
                         />
                         <SubmitButton
                         text
                         title={"Confirmar"}
                         actionButton={confirmAction}
+                        buttonStyle={styles.buttonConfirm}
                         />
                     </View>
                 </View>

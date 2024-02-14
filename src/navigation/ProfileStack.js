@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import ProfileScreen from '../screens/ProfileScreen'
-import ImageSelectorScreen from '../screens/ImageSelectorScreen'
-import LocationSelectorScreen from '../screens/LocationSelectorScreen'
-import EditProfileScreen from '../screens/EditProfileScreen'
+import ProfileScreen from '../screens/account/ProfileScreen'
+import ImageSelectorScreen from '../screens/account/ImageSelectorScreen'
+import LocationSelectorScreen from '../screens/account/LocationSelectorScreen'
+import EditProfileScreen from '../screens/account/EditProfileScreen'
 
 const Stack = createNativeStackNavigator()
 

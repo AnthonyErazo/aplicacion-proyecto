@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { StyleSheet, Image, View, Pressable, Text } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
-import { usePostProfileImageMutation, useGetProfileImageQuery } from '../app/services/userService'
+import { usePostProfileImageMutation, useGetProfileImageQuery } from '../../app/services/userService'
 import { useSelector } from 'react-redux'
-import SubmitButton from '../components/SubmitButton'
-import Loading from '../components/Loading'
-import WaveLoading from '../components/WaveLoading'
+import SubmitButton from '../../components/SubmitButton'
+import Loading from '../../components/Loading'
+import WaveLoading from '../../components/WaveLoading'
 
 
 export default function ImageSelectorScreen({ navigation }) {
@@ -68,7 +68,7 @@ export default function ImageSelectorScreen({ navigation }) {
         <View style={styles.container}>
             <View style={styles.imageContainer}>
                 <Image
-                    source={image ? { uri: image } : require("../../assets/user.png")}
+                    source={image ? { uri: image } : require("../../../assets/user.png")}
                     style={styles.image}
                     resizeMode='cover'
                     onLoad={() => setIsImageLoaded(true)}

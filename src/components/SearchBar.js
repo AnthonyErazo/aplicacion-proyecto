@@ -1,9 +1,8 @@
-import { TextInput, StyleSheet, View, Pressable } from 'react-native';
-import { AntDesign } from "@expo/vector-icons"
+import { TextInput, StyleSheet, View } from 'react-native';
 import { colors } from '../global/color'
 import SubmitButton from './SubmitButton';
 
-export default function SearchBar({ navigation, searchText, setSearchText,onSearch,actionInput }) {
+export default function SearchBar({ searchText, setSearchText,onSearch,actionInput }) {
 
     return (
         <View style={styles.container}>
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
     },
     searchIcon: {
         position: 'absolute',
-        right: 15,
+        right: 0,
         backgroundColor: colors.white,
         borderRadius: 10,
         padding: 10,

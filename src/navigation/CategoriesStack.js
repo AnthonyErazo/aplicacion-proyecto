@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import CategoriesScreen from '../screens/CategoriesScreen'
-import ProductCategories from '../screens/ProductCategoriesScreen'
+import CategoriesScreen from '../screens/categories/CategoriesScreen'
+import ProductCategories from '../screens/categories/ProductCategoriesScreen'
 
 const Stack = createNativeStackNavigator()
 

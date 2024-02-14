@@ -1,5 +1,4 @@
 import { useGetProductQuery } from '../app/services/shopServices';
-import Loading from '../components/Loading';
 import ProductDetail from '../components/ProductDetail';
 import WaveLoading from '../components/WaveLoading';
 

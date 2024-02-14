@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native'
-import InputForm from '../components/InputForm'
-import SubmitButton from '../components/SubmitButton'
-import { useSignupMutation } from '../app/services/authService'
+import InputForm from '../../components/InputForm'
+import SubmitButton from '../../components/SubmitButton'
+import { useSignupMutation } from '../../app/services/authService'
 import { useDispatch } from 'react-redux'
-import { setUser } from '../features/auth/authSlice'
-import { loginSchema } from '../validations/loginSchema'
-import { usePostProfileDataMutation } from '../app/services/userService'
-import { insertSession } from '../database';
-import WaveLoading from '../components/WaveLoading';
+import { setUser } from '../../features/auth/authSlice'
+import { loginSchema } from '../../validations/loginSchema'
+import { usePostProfileDataMutation } from '../../app/services/userService'
+import { insertSession } from '../../database';
+import WaveLoading from '../../components/WaveLoading';
 
 export default function RegisterScreen({ navigation }) {
     const dispatch = useDispatch()

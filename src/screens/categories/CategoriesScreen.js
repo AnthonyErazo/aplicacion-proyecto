@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, Dimensions, FlatList, Pressable } from 'react-native';
-import { useGetCategoriesQuery } from '../app/services/shopServices';
-import WaveLoading from '../components/WaveLoading';
+import { useGetCategoriesQuery } from '../../app/services/shopServices';
+import WaveLoading from '../../components/WaveLoading';
 
 const { width } = Dimensions.get('window');
 const itemWidth = (width - 40) / 3;

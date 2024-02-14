@@ -1,13 +1,10 @@
 import { View, FlatList, Text, StyleSheet, Dimensions, Pressable, Image } from 'react-native';
+import { formatCategory } from '../utils/formatCategories';
 
 const screenWidth = Dimensions.get('window').width;
 
 export default function CarouselCategory({ category, navigation }) {
-
-    const formatCategory = (category) => {
-        return category.replace(/-/, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
-    };
-    const renderVerMasItem = () =>(
+    const renderVerMasItem = () => (
         <View>
             <Pressable style={styles.categoryContainer} onPress={() => {
                 navigation.navigate('AllCategories');
@@ -29,7 +26,8 @@ export default function CarouselCategory({ category, navigation }) {
             renderItem={({ item }) => (
                 <View>
                     <Pressable style={styles.categoryContainer} onPress={() => {
-                        navigation.navigate('ProductCategories', { item: item.name })
+                        navigation.navigate('Categories')
+                        navigation.navigate("ProductCategories", { item: item.name })
                     }}>
                         <View style={styles.categoryInnerContainer}>
                             <Image source={{ uri: item.iconUrl }} style={styles.image} />

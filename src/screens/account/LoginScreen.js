@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import InputForm from '../components/InputForm'
-import SubmitButton from '../components/SubmitButton'
-import { useLoginMutation } from '../app/services/authService'
+import InputForm from '../../components/InputForm'
+import SubmitButton from '../../components/SubmitButton'
+import { useLoginMutation } from '../../app/services/authService'
 import { useDispatch } from 'react-redux'
-import { setUser } from '../features/auth/authSlice'
-import { insertSession } from '../database'
-import WaveLoading from '../components/WaveLoading'
+import { setUser } from '../../features/auth/authSlice'
+import { insertSession } from '../../database'
+import WaveLoading from '../../components/WaveLoading'
 
 export default function LoginScreen({ navigation }) {
     const dispatch = useDispatch()
