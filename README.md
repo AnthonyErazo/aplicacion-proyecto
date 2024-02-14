@@ -59,25 +59,30 @@ yarn start
 ## Capturas de Pantalla
 
 ### Exploración de Productos
-![Buscador](./assets/screenshot/buscador.png "Buscador")
-![Categorías](./assets/screenshot/categorias.png "Categorías")
-![Detalle de Producto](./assets/screenshot/detalle-producto.png "Detalle de Producto")
-![Productos por Categoría](./assets/screenshot/productos-categoria.png "Productos por Categoría")
+<div align="center">
+    <img src="./assets/screenshot/buscador.png" alt="Buscador" width="300"/>
+    <img src="./assets/screenshot/categorias.png" alt="Categorías" width="300"/>
+    <img src="./assets/screenshot/detalle-producto.png" alt="Detalle de Producto" width="300"/>
+    <img src="./assets/screenshot/productos-categoria.png" alt="Productos por Categoría" width="300"/>
+</div>
 
 ### Carrito y Órdenes
-![Carrito](./assets/screenshot/carrito.png "Carrito")
-![Detalle de Orden](./assets/screenshot/detalle-orden.png "Detalle de Orden")
-![Órdenes](./assets/screenshot/ordenes.png "Órdenes")
+<div align="center">
+    <img src="./assets/screenshot/carrito.png" alt="Carrito" width="300"/>
+    <img src="./assets/screenshot/detalle-orden.png" alt="Detalle de Orden" width="300"/>
+    <img src="./assets/screenshot/ordenes.png" alt="Órdenes" width="300"/>
+</div>
+
 
 ### Autenticación y Perfil
-![Inicio de Sesión](./assets/screenshot/login.png "Inicio de Sesión")
-![Registro de Usuario](./assets/screenshot/register.png "Registro de Usuario")
-![Perfil de Usuario](./assets/screenshot/perfil-usuario.png "Perfil de Usuario")
-![Edición de Perfil](./assets/screenshot/edit-perfil.png "Edición de Perfil")
-![Imagen de Perfil](./assets/screenshot/imagen-perfil.png "Imagen de Perfil")
-
-### Otros
-![Mapa en Perfil](./assets/screenshot/mapa-perfil.png "Mapa en Perfil")
+<div align="center">
+    <img src="./assets/screenshot/login.png" alt="Inicio de Sesión" width="300"/>
+    <img src="./assets/screenshot/register.png" alt="Registro de Usuario" width="300"/>
+    <img src="./assets/screenshot/perfil-usuario.png" alt="Perfil de Usuario" width="300"/>
+    <img src="./assets/screenshot/edit-perfil.png" alt="Edición de Perfil" width="300"/>
+    <img src="./assets/screenshot/imagen-perfil.png" alt="Imagen de Perfil" width="300"/>
+    <img src="./assets/screenshot/mapa-perfil.png" alt="Mapa en Perfil" width="300"/>
+</div>
 
 
 ## Tecnologías Utilizadas
